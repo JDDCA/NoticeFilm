@@ -1,5 +1,6 @@
 package com.gmail.nf.project.jddca.noticefilm.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-//        App.getInstanse().getActivityComponent().inject(this);
         App.getInstanse().getActivityComponent().inject(this);
         signInButton.setOnClickListener(v -> loginPresenter.login());
     }
@@ -73,4 +73,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    public static Intent createIntent(Activity activity) {
+        return new Intent(activity,LoginActivity.class);
+    }
 }

@@ -32,11 +32,8 @@ public class FirebaseManager {
 
     // TODO: 07.04.2017 доделать вход и описание метода
     public void login(@NonNull Activity activity) {
-        if (!authHelper.checkIsPreviousSession()) {
+        if (!checkSession()) {
             activity.startActivityForResult(authHelper.getGoogleIntent(), AuthHelper.RC_SIGN_IN);
-        } else {
-            activity.startActivity(MainActivity.createIntent(activity));
-            activity.finish();
         }
     }
 
@@ -51,6 +48,10 @@ public class FirebaseManager {
             }
         }
         return null;
+    }
+
+    public boolean checkSession (){
+        return authHelper.checkIsPreviousSession();
     }
 
 

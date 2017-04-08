@@ -3,6 +3,7 @@ package com.gmail.nf.project.jddca.noticefilm.model.injection.component;
 import com.gmail.nf.project.jddca.noticefilm.model.injection.module.PresenterModule;
 import com.gmail.nf.project.jddca.noticefilm.model.injection.scope.ScreenScope;
 import com.gmail.nf.project.jddca.noticefilm.view.LoginActivity;
+import com.gmail.nf.project.jddca.noticefilm.view.MainActivity;
 
 import dagger.Subcomponent;
 
@@ -21,6 +22,8 @@ public interface ActivityComponent {
     }
 
     void inject (LoginActivity activity);
+    void inject (MainActivity activity);
+
 
 
 
