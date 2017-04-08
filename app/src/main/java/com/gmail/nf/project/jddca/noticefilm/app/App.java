@@ -33,18 +33,7 @@ public class App extends android.app.Application{
     }
 
     public ApplicationComponent getApplicationComponent(){
-//        if (applicationComponent==null){
-//            applicationComponent = DaggerApplicationComponent.builder()
-//                    .applicationModule(new ApplicationModule(this))
-//                    .build();
-//        }
         return applicationComponent;
-    }
-
-    public void createActivityComponent (){
-//        activityComponent = applicationComponent.activityComponentBuilder()
-//                .presenterModule(new PresenterModule())
-//                .build();
     }
 
     public ActivityComponent getActivityComponent (){
@@ -53,7 +42,6 @@ public class App extends android.app.Application{
                     .presenterModule(new PresenterModule())
                     .build();
         }
-//            createActivityComponent();
         return activityComponent;
     }
 

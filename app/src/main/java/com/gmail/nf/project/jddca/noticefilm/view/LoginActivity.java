@@ -2,18 +2,15 @@ package com.gmail.nf.project.jddca.noticefilm.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.ErrorCodes;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.app.App;
 import com.gmail.nf.project.jddca.noticefilm.model.firebase.auth.AuthHelper;
-import com.gmail.nf.project.jddca.noticefilm.model.injection.component.ActivityComponent;
 import com.gmail.nf.project.jddca.noticefilm.presenter.LoginPresenter;
 import com.google.android.gms.common.SignInButton;
 
@@ -26,7 +23,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
 
-    @BindView(R.id.signIn) SignInButton signInButton;
+    @BindView(R.id.signInGoogle) SignInButton signInButton;
+    @BindView(R.id.signInAnonymously) AppCompatButton signInAnonymously;
 
     @Inject LoginPresenter loginPresenter;
 
@@ -36,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         App.getInstanse().getActivityComponent().inject(this);
-        signInButton.setOnClickListener(v -> loginPresenter.login());
+        signInButton.setOnClickListener(v -> loginPresenter.loginGoogle());
+        signInAnonymously.setOnClickListener(v -> loginPresenter.loginAnonymously());
     }
 
 

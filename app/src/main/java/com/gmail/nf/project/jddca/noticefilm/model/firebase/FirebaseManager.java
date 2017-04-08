@@ -2,6 +2,8 @@ package com.gmail.nf.project.jddca.noticefilm.model.firebase;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Observable;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -30,12 +32,24 @@ public class FirebaseManager {
     }
 
 
-    // TODO: 07.04.2017 доделать вход и описание метода
-    public void login(@NonNull Activity activity) {
+    public void loginGoogle(@NonNull Activity activity) {
         if (!checkSession()) {
             activity.startActivityForResult(authHelper.getGoogleIntent(), AuthHelper.RC_SIGN_IN);
         }
     }
+
+    public void loginAnonymously(@NonNull Activity activity) {
+        if (!checkSession()) {
+            authHelper.getAnonymouslyAuthResultTask().addOnCompleteListener(activity,task -> {
+                if (task.isSuccessful()){
+                    activity.startActivity(MainActivity.createIntent(activity));
+                    activity.finish();
+                }else Toast.makeText(activity,"ERROR!!!",Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
+
 
     public Integer getResultError(@NonNull Intent data) {
         IdpResponse response = authHelper.getResponse(data);
@@ -50,6 +64,10 @@ public class FirebaseManager {
         return null;
     }
 
+    /**
+     * Checks user's session
+     * @return true if session created and false if didn't
+     * */
     public boolean checkSession (){
         return authHelper.checkIsPreviousSession();
     }

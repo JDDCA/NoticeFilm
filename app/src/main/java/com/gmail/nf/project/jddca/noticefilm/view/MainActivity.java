@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import lombok.NonNull;
 import lombok.experimental.PackagePrivate;
+import rx.Observable;
 
 @PackagePrivate
 public class MainActivity extends AppCompatActivity {

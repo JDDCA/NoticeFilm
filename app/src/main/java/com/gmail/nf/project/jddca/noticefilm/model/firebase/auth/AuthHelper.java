@@ -5,13 +5,17 @@ import android.content.Intent;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.gmail.nf.project.jddca.noticefilm.model.injection.scope.ApplicationScope;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Arrays;
 
 import javax.inject.Inject;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.PackagePrivate;
 
@@ -58,8 +62,11 @@ public class AuthHelper {
      * @return IdpResponse
      * @see IdpResponse#fromResultIntent(Intent)
      * */
-    public IdpResponse getResponse (Intent data){
-        return  IdpResponse.fromResultIntent(data);
+    public IdpResponse getResponse (Intent data){return  IdpResponse.fromResultIntent(data);}
+
+    public Task<AuthResult> getAnonymouslyAuthResultTask (){
+        return auth.signInAnonymously();
     }
+
 
 }

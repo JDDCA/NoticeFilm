@@ -2,9 +2,6 @@ package com.gmail.nf.project.jddca.noticefilm.presenter;
 
 import android.content.Intent;
 
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
-import com.firebase.ui.auth.ResultCodes;
 import com.gmail.nf.project.jddca.noticefilm.model.firebase.FirebaseManager;
 import com.gmail.nf.project.jddca.noticefilm.view.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.MainActivity;
@@ -35,8 +32,11 @@ public class LoginPresenter {
         this.firebaseManager = firebaseManager;
     }
 
-    public void login() {
-        firebaseManager.login(activity);
+    /**
+     * Login with Google+
+     * */
+    public void loginGoogle() {
+        firebaseManager.loginGoogle(activity);
     }
 
     public Integer getError(@NonNull Intent data) {
@@ -46,5 +46,12 @@ public class LoginPresenter {
     public void entered() {
         activity.startActivity(MainActivity.createIntent(activity));
         activity.finish();
+    }
+
+    /**
+     * Login anonymously
+     * */
+    public void loginAnonymously() {
+        firebaseManager.loginAnonymously(activity);
     }
 }
