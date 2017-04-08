@@ -1,15 +1,14 @@
 package com.gmail.nf.project.jddca.noticefilm.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
-import com.gmail.nf.project.jddca.noticefilm.R;
+import com.gmail.nf.project.jddca.noticefilm.presenter.SingleFragmentActivity;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends SingleFragmentActivity {
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    protected Fragment createFragment() {
+        return new LoginFragment();
     }
 }
