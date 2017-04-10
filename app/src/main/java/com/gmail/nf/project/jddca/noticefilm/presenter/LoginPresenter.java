@@ -43,8 +43,8 @@ public class LoginPresenter {
         return firebaseManager.getResultError(data);
     }
 
-    public void entered() {
-        activity.startActivity(MainActivity.createIntent(activity));
+    public void entered(@NonNull Intent data) {
+        activity.startActivity(MainActivity.createIntent(activity,putToken(data)));
         activity.finish();
     }
 
@@ -53,5 +53,9 @@ public class LoginPresenter {
      * */
     public void loginAnonymously() {
         firebaseManager.loginAnonymously(activity);
+    }
+
+    public String putToken(@NonNull Intent data) {
+        return firebaseManager.getToken (data);
     }
 }

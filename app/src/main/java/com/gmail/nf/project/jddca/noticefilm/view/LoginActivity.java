@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(this,"BACK",Toast.LENGTH_SHORT).show();
                 }
             }else {
-                loginPresenter.entered();
+                loginPresenter.entered(data);
             }
         }
     }

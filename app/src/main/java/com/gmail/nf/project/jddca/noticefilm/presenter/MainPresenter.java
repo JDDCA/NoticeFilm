@@ -1,14 +1,11 @@
 package com.gmail.nf.project.jddca.noticefilm.presenter;
 
-import android.content.Intent;
-
 import com.gmail.nf.project.jddca.noticefilm.model.firebase.FirebaseManager;
 import com.gmail.nf.project.jddca.noticefilm.view.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.MainActivity;
 
 import javax.inject.Inject;
 
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.PackagePrivate;
 
@@ -19,10 +16,10 @@ import lombok.experimental.PackagePrivate;
  * @see MainActivity
  */
 
-@PackagePrivate
+@PackagePrivate @Setter
 public class MainPresenter {
 
-    @Setter
+
     MainActivity activity;
 
     FirebaseManager firebaseManager;
@@ -37,4 +34,23 @@ public class MainPresenter {
             activity.finish();
         }
     }
+
+    public void logOutGoogle(){
+        firebaseManager.logOutGoogle(activity);
+    }
+    public void logOutAnonymously(){
+        firebaseManager.logOutAnonymously();
+        activity.startActivity(LoginActivity.createIntent(activity));
+        activity.finish();
+    }
+
+    public boolean isAnonymous (){
+        return firebaseManager.isAnonymusUser();
+    }
+
+    public void convertToGoogle(){
+        firebaseManager.convert(activity,activity.getIntent().getStringExtra("token"));
+
+    }
+
 }

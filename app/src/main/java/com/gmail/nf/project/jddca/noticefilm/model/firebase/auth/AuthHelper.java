@@ -1,6 +1,7 @@
 package com.gmail.nf.project.jddca.noticefilm.model.firebase.auth;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -8,12 +9,14 @@ import com.gmail.nf.project.jddca.noticefilm.model.injection.scope.ApplicationSc
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Arrays;
 
 import javax.inject.Inject;
 
+import dagger.Lazy;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -24,7 +27,7 @@ import lombok.experimental.PackagePrivate;
  * Helps with sign in and log out users
  */
 
-@PackagePrivate @Getter @Setter @ApplicationScope
+@PackagePrivate @Setter @ApplicationScope
 public class AuthHelper {
 
     public static final int RC_SIGN_IN = 1;
@@ -68,5 +71,12 @@ public class AuthHelper {
         return auth.signInAnonymously();
     }
 
+    public Task<Void> signOutGoogle (@NonNull FragmentActivity fragmentActivity){
+        return AuthUI.getInstance().signOut(fragmentActivity);
+    }
+    public void signOutAnonymously (){
+        auth.signOut();
+    }
+    public FirebaseUser getUser (){return auth.getCurrentUser();}
 
 }

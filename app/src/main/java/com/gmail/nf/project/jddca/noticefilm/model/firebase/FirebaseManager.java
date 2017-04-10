@@ -3,13 +3,18 @@ package com.gmail.nf.project.jddca.noticefilm.model.firebase;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Observable;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.gmail.nf.project.jddca.noticefilm.model.firebase.auth.AuthHelper;
 import com.gmail.nf.project.jddca.noticefilm.model.injection.scope.ApplicationScope;
+import com.gmail.nf.project.jddca.noticefilm.view.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.MainActivity;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import javax.inject.Inject;
 
@@ -42,14 +47,24 @@ public class FirebaseManager {
         if (!checkSession()) {
             authHelper.getAnonymouslyAuthResultTask().addOnCompleteListener(activity,task -> {
                 if (task.isSuccessful()){
-                    activity.startActivity(MainActivity.createIntent(activity));
-                    activity.finish();
-                }else Toast.makeText(activity,"ERROR!!!",Toast.LENGTH_SHORT).show();
+                    task.getResult().getUser().getToken(true).addOnCompleteListener(task1 -> {
+                        activity.startActivity(MainActivity.createIntent(activity,task1.getResult().getToken()));
+                        activity.finish();});
+                }else Toast.makeText(activity,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
             });
         }
     }
 
+    public  void logOutGoogle (@NonNull FragmentActivity fragmentActivity){
+        authHelper.signOutGoogle(fragmentActivity).addOnCompleteListener(v -> {
+            fragmentActivity.startActivity(LoginActivity.createIntent(fragmentActivity));
+            fragmentActivity.finish();
+        });
+    }
 
+    public void logOutAnonymously (){
+        authHelper.signOutAnonymously();
+    }
 
     public Integer getResultError(@NonNull Intent data) {
         IdpResponse response = authHelper.getResponse(data);
@@ -72,8 +87,20 @@ public class FirebaseManager {
         return authHelper.checkIsPreviousSession();
     }
 
+    public boolean isAnonymusUser (){
+        return authHelper.getUser().isAnonymous();
+    }
 
+    public void convert (Activity activity, String token){
+        activity.startActivityForResult(authHelper.getGoogleIntent(), AuthHelper.RC_SIGN_IN);
+        AuthCredential credential = GoogleAuthProvider.getCredential(token, null);
+        authHelper.getUser().linkWithCredential(credential).addOnCompleteListener(task -> {
+           Toast.makeText(activity,"CONVERT",Toast.LENGTH_SHORT).show();
+        });
+    }
 
-
+    public String getToken(Intent data) {
+        return authHelper.getResponse(data).getIdpToken();
+    }
 }
 
