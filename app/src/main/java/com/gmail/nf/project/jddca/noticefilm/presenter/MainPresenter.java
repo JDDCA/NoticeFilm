@@ -48,9 +48,6 @@ public class MainPresenter {
         return firebaseManager.isAnonymusUser();
     }
 
-    public void convertToGoogle(){
-        firebaseManager.convert(activity,activity.getIntent().getStringExtra("token"));
-
+    public void convertToGoogle() {firebaseManager.convert(activity, activity.getIntent().getStringExtra("token"));
     }
-
 }
