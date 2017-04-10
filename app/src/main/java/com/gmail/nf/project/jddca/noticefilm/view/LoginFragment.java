@@ -21,16 +21,14 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_login, container, false);
+        View v = inflater.inflate(R.layout.activity_test, container, false);
 
         mButtonLogin = (Button)v.findViewById(R.id.button_login);
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                DialogFragment dialog = DialogFactory.newInstance(R.string.dialog_authorisation_error_title);
-                dialog.show(fm, DIALOG_MESSAGE);
-            }
+        mButtonLogin.setOnClickListener(v1 -> {
+            FragmentManager fm = getFragmentManager();
+            DialogFragment dialog = DialogFactory.newInstance(R.string.dialog_authorisation_error_title);
+            dialog.show(fm, DIALOG_MESSAGE);
+
         });
 
 

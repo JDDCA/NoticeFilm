@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.gmail.nf.project.jddca.noticefilm.presenter.SingleFragmentActivity;
 
-public class LoginActivity extends SingleFragmentActivity {
+public class TestActivity extends SingleFragmentActivity {
 
 
     @Override
