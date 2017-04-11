@@ -20,13 +20,13 @@ public interface InterfFilm {
 //    @GET("movie/{movie_id}?api_key=ba8e8a114ce7fc27aa71ebec8c0b1afe&language=ru-RU")
 //    Call<Example> listRepos(@Path("movie_id") int groupId);
 
-    @GET("movie/upcoming?api_key=ba8e8a114ce7fc27aa71ebec8c0b1afe&language=ru-RU&")
-    Call<ExampleNewF> getJSON(@Query("page") int page);
+    @GET("movie/upcoming")
+    Call<ExampleNewF> getJSON(@Query("page") int page, @Query("api_key") int api_key, @Query("language") int language);
 
-    @GET("genre/movie/list?api_key=ba8e8a114ce7fc27aa71ebec8c0b1afe&language=ru-RU")
-    Call<ExampleJanr> EJanr();
+    @GET("genre/movie/list")
+    Call<ExampleJanr> EJanr( @Query("api_key") String api_key, @Query("language") String language);
 
-    @GET("genre/{id}/movies?api_key=&language=ru-RU")
-    Call<ExampleJyrnal> groupList(@Path("id") int grId, @Query("page") int page, @Query("api_key") int api_key, @Query("language") int language);
+    @GET("genre/{id}/movies")
+    Call<ExampleJyrnal> groupList(@Path("id") int grId, @Query("page") int page, @Query("api_key") String api_key, @Query("language") String language);
 
 }
