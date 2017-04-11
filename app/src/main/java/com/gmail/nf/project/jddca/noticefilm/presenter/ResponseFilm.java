@@ -3,13 +3,17 @@ package com.gmail.nf.project.jddca.noticefilm.presenter;
 import android.animation.IntArrayEvaluator;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.FilmsNew.ExampleNewF;
 import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.Genre_of_films.ExampleJanr;
 import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.Genre_of_films.GenreJanr;
+import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.Result.Result;
 import com.gmail.nf.project.jddca.noticefilm.model.RetrofitZapr.InterfFilm;
 import com.gmail.nf.project.jddca.noticefilm.model.RetrofitZapr.RetrofitFilm;
 import com.gmail.nf.project.jddca.noticefilm.presenter.Data.ResultInt;
@@ -22,6 +26,10 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by bigi on 11.04.2017.
@@ -31,24 +39,23 @@ public class ResponseFilm {
     private static final String IMEG = "https://image.tmdb.org/t/p/w500";
     private static final String KEY = "ba8e8a114ce7fc27aa71ebec8c0b1afe";
     private static final String language = "ru-RU";
-    private List<GenreJanr> books ;
-    private int ID,IDj=0,idJn;
+    private List<GenreJanr> books;
+
+    // private int ID, IDj = 0, idJn;
+    private RetrofitFilm retrofitFilm = new RetrofitFilm();
 
     public void getGenre(Spinner spinner, Context context) {
         //Ketika Aplikasi mengambil data kita akan melihat progress dialog
-        final ProgressDialog loading = ProgressDialog.show(context,"Fetching Data","Please Wait..",false,false);
-
-        RetrofitFilm retrofitFilm = new RetrofitFilm();
+        final ProgressDialog loading = ProgressDialog.show(context, "Fetching Data", "Please Wait..", false, false);
         InterfFilm API = retrofitFilm.RetrZap();
-        Call<ExampleJanr> call = API.EJanr(KEY,language);
+        Call<ExampleJanr> call = API.EJanr(KEY, language);
         call.enqueue(new Callback<ExampleJanr>() {
             @Override
             public void onResponse(Call<ExampleJanr> call, Response<ExampleJanr> response) {
                 loading.dismiss();
                 List<GenreJanr> buku = response.body().getListbuku();
                 books = buku;
-                showList(spinner,context);
-
+                showList(spinner, context);
             }
 
             @Override
@@ -60,19 +67,20 @@ public class ResponseFilm {
 
     private ResultInt showList(Spinner spinner, Context context) {
         //String array untuk menyimpan nama semua nama buku
-        String[] items = new String[books.size()+1];
-        items[0]= "OOOL random";
+        String[] items = new String[books.size() + 1];
+        items[0] = "OOOL random";
         for (int i = 1; i < books.size(); i++) {
 
             items[i] = books.get(i).getName();
         }
 
         //Membuat Array Adapter for spinner
-        ArrayAdapter adapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);
 
         ResultInt r = new ResultInt();
         //setting adapter untuk spinner
         spinner.setAdapter(adapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -89,5 +97,23 @@ public class ResponseFilm {
         return r;
     }
 
+    public void NewFilms(RecyclerView recyclerView) {
+        InterfFilm API = retrofitFilm.RetrZap();
+
+        Call<ExampleNewF> call = API.getJSON(1, KEY, language);
+        call.enqueue(new Callback<ExampleNewF>() {
+            @Override
+            public void onResponse(Call<ExampleNewF> call, Response<ExampleNewF> response) {
+                List<Result> movies = response.body().getResults();
+                recyclerView.setAdapter(new DataAdapter(movies, getApplicationContext()));
+
+            }
+
+            @Override
+            public void onFailure(Call<ExampleNewF> call, Throwable t) {
+                Log.d("Error", t.getMessage());
+            }
+        });
+    }
 
 }

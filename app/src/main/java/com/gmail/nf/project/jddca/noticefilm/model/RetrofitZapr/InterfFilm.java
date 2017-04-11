@@ -1,7 +1,6 @@
 package com.gmail.nf.project.jddca.noticefilm.model.RetrofitZapr;
 
 
-
 import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.FilmsNew.ExampleNewF;
 import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.FilmsRandom.ExampleJyrnal;
 import com.gmail.nf.project.jddca.noticefilm.model.POJOS.REST.Genre_of_films.ExampleJanr;
@@ -21,10 +20,10 @@ public interface InterfFilm {
 //    Call<Example> listRepos(@Path("movie_id") int groupId);
 
     @GET("movie/upcoming")
-    Call<ExampleNewF> getJSON(@Query("page") int page, @Query("api_key") int api_key, @Query("language") int language);
+    Call<ExampleNewF> getJSON(@Query("page") int page, @Query("api_key") String api_key, @Query("language") String language);
 
     @GET("genre/movie/list")
-    Call<ExampleJanr> EJanr( @Query("api_key") String api_key, @Query("language") String language);
+    Call<ExampleJanr> EJanr(@Query("api_key") String api_key, @Query("language") String language);
 
     @GET("genre/{id}/movies")
     Call<ExampleJyrnal> groupList(@Path("id") int grId, @Query("page") int page, @Query("api_key") String api_key, @Query("language") String language);
