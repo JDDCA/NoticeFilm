@@ -67,6 +67,7 @@ public class MainActivity extends FragmentActivity {
             startActivity(LoginActivity.createIntent(this));
             finish();
         }
-
     }
+
+
 }

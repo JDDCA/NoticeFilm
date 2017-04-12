@@ -29,22 +29,48 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //or 25.3.1
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.firebaseui:firebase-ui-auth:1.2.0'
-    compile 'com.firebaseui:firebase-ui-database:1.2.0'
-//    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.2.9'
-    compile 'com.google.dagger:dagger:2.10'
-//    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+//    def daggerLibVersion = '2.10'
+    def butterKnifeLibVersion = '8.5.1'
+    def firebaseUILibVersion = '1.2.0'
+    def firebaseLib = "10.2.0"
+    def androidSupportLibVersion = '25.3.1'
+    def lombokLib = '1.12.6'
+    def rxJavaLib = '1.2.9'
+    def rxAndroid = '1.2.1'
+
+    //    compile 'com.squareup.retrofit2:retrofit:2.2.0'
 //    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
 //    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    compile 'com.google.firebase:firebase-core:10.2.0'
+
+    // Dagger
+//    compile 'com.google.dagger:dagger:' + daggerLibVersion
+//    compile 'com.google.dagger:dagger-android:' + daggerLibVersion
+//    compile 'com.google.dagger:dagger-android-support:' + daggerLibVersion
+
+    // ButterKnife
+    compile 'com.jakewharton:butterknife:' + butterKnifeLibVersion
+    annotationProcessor 'com.jakewharton:butterknife-compiler:' + butterKnifeLibVersion
+
+    //FirebaseUI
+    compile 'com.firebaseui:firebase-ui-auth:' + firebaseUILibVersion
+    compile 'com.firebaseui:firebase-ui-database:' + firebaseUILibVersion
+
+    //Firebase
+    compile 'com.google.firebase:firebase-core:' + firebaseLib
+
+    // Android support
+    compile 'com.android.support:appcompat-v7:' + androidSupportLibVersion
+    compile 'com.android.support:support-v4:' + androidSupportLibVersion
+
+    //Lombok
+    provided 'org.projectlombok:lombok:' + lombokLib
+
+    //RxJava
+    compile 'io.reactivex:rxjava:' + rxJavaLib
+    compile 'io.reactivex:rxandroid:' + rxAndroid
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    provided 'org.projectlombok:lombok:1.12.6'
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

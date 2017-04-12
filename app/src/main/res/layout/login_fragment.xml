@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gmail.nf.project.jddca.noticefilm.view.LoginActivity">
+    tools:context="com.gmail.nf.project.jddca.noticefilm.view.LA">
 
 
     <com.google.android.gms.common.SignInButton
