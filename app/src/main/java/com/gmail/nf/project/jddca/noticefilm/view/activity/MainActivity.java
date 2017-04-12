@@ -14,7 +14,7 @@ import android.widget.Spinner;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseUtils;
-import com.gmail.nf.project.jddca.noticefilm.presenter.MainPresentr;
+import com.gmail.nf.project.jddca.noticefilm.presenter.MainPresenter;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.MovieFragment;
 
 import butterknife.BindView;
@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity {
 
     public final String TAG = getClass().getSimpleName();
 
-    MainPresentr mainPresentr;
+    MainPresenter mainPresenter;
 
     @BindView(R.id.advice_btn)
     Button btnAdvice;
@@ -53,8 +53,8 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainPresentr = new MainPresentr();
-        mainPresentr.setActivity(this);
+        mainPresenter = new MainPresenter();
+        mainPresenter.setActivity(this);
         ButterKnife.bind(this);
 
         // Фрагмент с фильмом | Fragment with movie info
@@ -72,8 +72,8 @@ public class MainActivity extends FragmentActivity {
         generesSpinner.setAdapter(adapterGenres);
 
 //        showProvider.setOnClickListener(v -> Log.i(TAG, "onCreate: "+FirebaseUtils.isAnonymousUser()));
-//        logOutGoogle.setOnClickListener(v -> mainPresentr.logout(FirebaseUtils.GOOGLE_PROVIDER));
-//        logOutAnonymously.setOnClickListener(v -> mainPresentr.logout(FirebaseUtils.ANONYMOUSLY_PROVIDER) );
+//        logOutGoogle.setOnClickListener(v -> mainPresenter.logout(FirebaseUtils.GOOGLE_PROVIDER));
+//        logOutAnonymously.setOnClickListener(v -> mainPresenter.logout(FirebaseUtils.ANONYMOUSLY_PROVIDER) );
 //        convertToGoogle.setOnClickListener(v -> {});
 
 
@@ -99,7 +99,7 @@ public class MainActivity extends FragmentActivity {
 
     @OnClick(R.id.advice_btn)
     public void onClick(View view) {
-// Реализовать логику нажатия на кнопку | Implement logic press on button
+
     }
 
 

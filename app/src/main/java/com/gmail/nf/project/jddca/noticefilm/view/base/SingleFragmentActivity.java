@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentManager;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 
-/**Базовый класс для Activity, помогает создать хост с 1 фрагментом*/
+/**Базовый класс для Activity, помогает создать хост с 1 фрагментом
+ * Base class for Activity, help with fragment host creating
+ * */
 
 public abstract class SingleFragmentActivity extends FragmentActivity {
 

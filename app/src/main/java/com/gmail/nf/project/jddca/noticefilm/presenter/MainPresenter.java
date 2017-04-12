@@ -10,13 +10,14 @@ import lombok.Setter;
 import lombok.experimental.PackagePrivate;
 
 @PackagePrivate
-public class MainPresentr {
+public class MainPresenter {
 
     DataManager dataManager;
+
     @Setter
     MainActivity activity;
 
-    public MainPresentr() {
+    public MainPresenter() {
         dataManager = DataManager.getInstance();
     }
 
