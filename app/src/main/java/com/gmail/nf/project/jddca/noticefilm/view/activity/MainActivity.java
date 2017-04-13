@@ -17,9 +17,12 @@ import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseUtils;
 import com.gmail.nf.project.jddca.noticefilm.presenter.MainPresenter;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.MovieFragment;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lombok.Getter;
 import lombok.experimental.PackagePrivate;
 
 
@@ -32,13 +35,17 @@ public class MainActivity extends FragmentActivity {
 
     public final String TAG = getClass().getSimpleName();
 
+    @Getter
+    private int randomID;
+
+    @Inject
     MainPresenter mainPresenter;
 
     @BindView(R.id.advice_btn)
     Button btnAdvice;
 
     @BindView(R.id.genre_spinner)
-    Spinner generesSpinner;
+    Spinner genresSpinner;
 
     /*@BindView(R.id.logOutGoogle)
     AppCompatButton logOutGoogle;
@@ -57,19 +64,19 @@ public class MainActivity extends FragmentActivity {
         mainPresenter.setActivity(this);
         ButterKnife.bind(this);
 
+
         // Фрагмент с фильмом | Fragment with movie info
         MovieFragment movieFragment = new MovieFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
         transaction.replace(R.id.fragment_container, movieFragment);
-        transaction.add(R.id.fragment_container, movieFragment);
-        transaction.remove(movieFragment);
         transaction.addToBackStack(null);
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commit();
 
         // Создание spinner'а и присоединение адаптера с жанрами | Creating Spinner with genres adapter
         ArrayAdapter<CharSequence> adapterGenres = ArrayAdapter.createFromResource(this, R.array.genres, android.R.layout.simple_spinner_item);
-        generesSpinner.setAdapter(adapterGenres);
+        genresSpinner.setAdapter(adapterGenres);
 
 //        showProvider.setOnClickListener(v -> Log.i(TAG, "onCreate: "+FirebaseUtils.isAnonymousUser()));
 //        logOutGoogle.setOnClickListener(v -> mainPresenter.logout(FirebaseUtils.GOOGLE_PROVIDER));
@@ -99,7 +106,7 @@ public class MainActivity extends FragmentActivity {
 
     @OnClick(R.id.advice_btn)
     public void onClick(View view) {
-
+        randomID = (int) (Math.random() + 500);
     }
 
 
