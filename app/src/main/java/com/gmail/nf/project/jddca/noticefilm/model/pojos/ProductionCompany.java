@@ -10,9 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductionCompany {
+
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("id")
     @Expose
     private Integer id;
