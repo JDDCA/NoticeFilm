@@ -5,4 +5,11 @@
     <string name="dialog_cancel_error">You canceled auth</string>
     <string name="dialog_unknown_error">I don not know what happens. Try again!</string>
     <string name="ok">Ok</string>
+    <string name="advice">Advice</string>
+    <string-array name="genres">
+        <item>Action</item>
+        <item>Comedy</item>
+        <item>Drama</item>
+        <item>Family</item>
+    </string-array>
 </resources>

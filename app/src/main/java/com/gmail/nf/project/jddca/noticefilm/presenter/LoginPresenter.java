@@ -26,6 +26,7 @@ public class LoginPresenter {
     }
 
     /**Метод для делегирования входа
+     * Sign In method
      * @see DataManager#login(Fragment, int) */
     public void login (int PROVIDER){
         dataManager.login(fragment,PROVIDER);
