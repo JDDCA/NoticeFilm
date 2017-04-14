@@ -35,8 +35,8 @@ dependencies {
     def firebaseLib = "10.2.0"
     def androidSupportLibVersion = '25.3.1'
     def lombokLib = '1.12.6'
-    def rxJavaLib = '1.2.9'
-    def rxAndroid = '1.2.1'
+    def rxJavaLib = '2.0.1'
+
 
     //    compile 'com.squareup.retrofit2:retrofit:2.2.0'
 //    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
@@ -67,7 +67,7 @@ dependencies {
 
     //RxJava
     compile 'io.reactivex:rxjava:' + rxJavaLib
-    compile 'io.reactivex:rxandroid:' + rxAndroid
+    compile 'io.reactivex:rxandroid:' + rxJavaLib
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
