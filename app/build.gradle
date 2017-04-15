@@ -8,6 +8,7 @@ android {
         applicationId "com.gmail.nf.project.jddca.noticefilm"
         minSdkVersion 16
         targetSdkVersion 25
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -35,12 +36,8 @@ dependencies {
     def firebaseLib = "10.2.0"
     def androidSupportLibVersion = '25.3.1'
     def lombokLib = '1.12.6'
-    def rxJavaLib = '2.0.1'
-
-
-    //    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-//    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-//    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    def multidex = '1.0.1'
+    def supportDesign = '25.3.1'
 
     // Dagger
 //    compile 'com.google.dagger:dagger:' + daggerLibVersion
@@ -66,8 +63,22 @@ dependencies {
     provided 'org.projectlombok:lombok:' + lombokLib
 
     //RxJava
-    compile 'io.reactivex:rxjava:' + rxJavaLib
-    compile 'io.reactivex:rxandroid:' + rxJavaLib
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.8'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    //Retrofit
+    compile group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: '2.2.0'
+    compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.2.0'
+
+    //Gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+
+    //MSL
+    compile 'com.android.support:multidex:' + multidex
+
+    //Navigatin Tab Bar
+//    compile 'devlight.io:navigationtabbar:1.2.5'
+    compile 'com.android.support:design:' + supportDesign
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'

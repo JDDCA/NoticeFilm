@@ -54,6 +54,8 @@ public class LoginFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        // стирает ссылку на презентер и освобождает память
+        loginPresenter = null;
     }
 
 

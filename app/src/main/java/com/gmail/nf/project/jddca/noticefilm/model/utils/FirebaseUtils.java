@@ -77,7 +77,8 @@ public class FirebaseUtils {
             fragment.startActivityForResult(getGoogleIntent(), RC_SIGN_IN);
         } else {
             // already signed in
-
+            fragment.startActivity(MainActivity.createIntent(fragment.getActivity()));
+            fragment.getActivity().finish();
         }
     }
 

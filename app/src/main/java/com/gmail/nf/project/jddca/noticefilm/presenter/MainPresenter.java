@@ -9,9 +9,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.rest.MovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.MainActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.MovieFragment;
 
-import javax.inject.Inject;
 
-import dagger.Module;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
