@@ -12,10 +12,10 @@ import retrofit2.http.Path;
 public class MovieServiceImpl implements MovieService {
 
     private static final String KEY = "e155ee391fe67e4bced2832115371e0c";
-    private static final String URL = "https://api.themoviedb.org/3/";
+    public static final String URL = "https://api.themoviedb.org/3/";
 
     @Override
-    public Observable<Movie> get(@Path("movie_id") long id, @Path("api_key") String key) {
+    public Observable<Movie> get(@Path("movie_id") int id) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -25,6 +25,6 @@ public class MovieServiceImpl implements MovieService {
 
         MovieService movieService = retrofit.create(MovieService.class);
 
-        return movieService.get(id, key);
+        return movieService.get(id);
     }
 }

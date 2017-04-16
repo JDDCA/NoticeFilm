@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 
 public interface MovieService {
 
-    @GET("movie/{movie_id}?api_key=e155ee391fe67e4bced2832115371e0c")
-    Observable<Movie> get(@Path("movie_id") long id, @Path("api_key") String key);
+    @GET("movie/{movie_id}?api_key=e155ee391fe67e4bced2832115371e0c&language=ru-RU")
+    Observable<Movie> get(@Path("movie_id") int id);
 
 }
