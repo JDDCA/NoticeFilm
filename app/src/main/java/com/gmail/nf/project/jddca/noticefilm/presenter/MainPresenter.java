@@ -36,11 +36,6 @@ public class MainPresenter {
         this.movieView = movieView;
         this.movieService = movieService;
     }
-//
-//    public MainPresenter() {
-//        this.movieService = new MovieServiceImpl();
-//        dataManager = DataManager.getInstance();
-//    }
 
     public void logout(int PROVIDER) {
         dataManager.logout(activity, PROVIDER);
