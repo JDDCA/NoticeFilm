@@ -22,7 +22,6 @@
             android:background="@drawable/lock_stock"
             android:backgroundTint="@color/backgroundOpacityColor"
             android:backgroundTintMode="src_atop"
-            android:cropToPadding="true"
             android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -106,6 +105,24 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_title"
             tools:layout_constraintRight_creator="1"
             tools:layout_constraintLeft_creator="1" />
+
+        <TextView
+            android:id="@+id/original_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Lock, Stock and Two Smocking Barrels"
+            android:textColor="@color/posterTextColor"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:typeface="normal"
+            app:layout_constraintBottom_toTopOf="@+id/movie_title"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintLeft_toLeftOf="@+id/movie_img"
+            app:layout_constraintRight_toRightOf="@+id/movie_img" />
 
 
     </android.support.constraint.ConstraintLayout>
