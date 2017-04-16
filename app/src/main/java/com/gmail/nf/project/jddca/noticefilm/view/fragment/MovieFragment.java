@@ -1,24 +1,30 @@
 package com.gmail.nf.project.jddca.noticefilm.view.fragment;
 
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Movie;
-import com.gmail.nf.project.jddca.noticefilm.model.rest.MovieService;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.MovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.presenter.MainPresenter;
 import com.gmail.nf.project.jddca.noticefilm.view.MovieView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +37,10 @@ import lombok.experimental.PackagePrivate;
 @PackagePrivate
 public class MovieFragment extends Fragment implements MovieView {
 
+    private final String TAG = getClass().getSimpleName();
+
+    private final String PATH = "https://image.tmdb.org/t/p/w500";
+
     private MainPresenter mainPresenter;
 
     // ButterKnife биндер для управения привязками к view-элементам
@@ -42,8 +52,14 @@ public class MovieFragment extends Fragment implements MovieView {
     @BindView(R.id.movie_img)
     ImageView poster;
 
+    @BindView(R.id.movie_constraint_layout)
+    ConstraintLayout constraintLayout;
+
     @BindView(R.id.movie_title)
     TextView title;
+
+    @BindView(R.id.original_title)
+    TextView originalTitle;
 
     @BindView(R.id.movie_description)
     TextView description;
@@ -54,8 +70,8 @@ public class MovieFragment extends Fragment implements MovieView {
     @BindView(R.id.fab_to_favorites)
     FloatingActionButton fabToFavorites;
 
-    @BindView(R.id.fab_generate)
-    FloatingActionButton generate;
+    @BindView(R.id.generate_btn)
+    Button generateBtn;
 
     public MovieFragment() {
         // Required empty public constructor
@@ -73,10 +89,10 @@ public class MovieFragment extends Fragment implements MovieView {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
         unbinder = ButterKnife.bind(this, view);
         randomID = mainPresenter.getRandomID();
-        generate.setOnClickListener(v -> {
+        generateBtn.setOnClickListener(v -> {
             randomID = mainPresenter.getRandomID();
         });
-        mainPresenter.getMovie(randomID);
+        mainPresenter.getMovie(500);
         return view;
     }
 
@@ -87,11 +103,49 @@ public class MovieFragment extends Fragment implements MovieView {
      */
     @Override
     public void showMovie(Movie movie) {
+
         // Добавляем картинку используя библиотеку Picasso
-        Picasso.with(getActivity())
-                .load(MovieServiceImpl.URL + movie.getBackdropPath())
-                .into(poster);
+        Log.e(TAG, PATH + movie.getPosterPath());
+        Picasso.with(getContext())
+                .load(PATH + movie.getPosterPath())
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        constraintLayout.setBackground(new BitmapDrawable(getContext().getResources(), bitmap));
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+        Picasso.with(getContext())
+                .load(PATH + movie.getPosterPath())
+                .centerCrop()
+                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        poster.setBackground(new BitmapDrawable(getContext().getResources(), bitmap));
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
         // Присваиваем текстовым полям значения полученные из Presenter'a
+        originalTitle.setText(movie.getOriginalTitle());
         title.setText(movie.getTitle());
         description.setText(movie.getOverview());
         year.setText(movie.getReleaseDate());
