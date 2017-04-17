@@ -8,4 +8,13 @@
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+
+    <string-array name="color_icons">
+        <item>#28ffffff</item>
+        <item>#c860d942</item>
+        <item>#c8062a3b</item>
+        <item>#c8468cae</item>
+    </string-array>
 </resources>
+
+
