@@ -12,7 +12,7 @@ import lombok.experimental.PackagePrivate;
  */
 
 @PackagePrivate
-public class App extends android.app.Application{
+public class App extends android.app.Application {
 
     @Override
     public void onCreate() {

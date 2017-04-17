@@ -1,6 +1,7 @@
 package com.gmail.nf.project.jddca.noticefilm.view.fragment;
 
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.pojos.Movie;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.MovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.presenter.MainPresenter;
 import com.gmail.nf.project.jddca.noticefilm.view.MovieView;
+import com.gmail.nf.project.jddca.noticefilm.view.activity.MainActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -47,7 +50,7 @@ public class MovieFragment extends Fragment implements MovieView {
     private Unbinder unbinder;
 
     // Хранит значение, полученное после генерации случайного числа
-    private int randomID;
+    private int randomID = 0;
 
     @BindView(R.id.movie_img)
     ImageView poster;
@@ -80,19 +83,25 @@ public class MovieFragment extends Fragment implements MovieView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mainPresenter = new MainPresenter(this, new MovieServiceImpl());
+        mainPresenter.setActivity((MainActivity) getActivity());
+        mainPresenter.getMovie(String.valueOf(100), getResources().getString(R.string.key), getResources().getString(R.string.lang));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
+
         unbinder = ButterKnife.bind(this, view);
         randomID = mainPresenter.getRandomID();
+
         generateBtn.setOnClickListener(v -> {
             randomID = mainPresenter.getRandomID();
+            mainPresenter.getMovie(String.valueOf(randomID), getResources().getString(R.string.key), getResources().getString(R.string.lang));
         });
-        mainPresenter.getMovie(500);
         return view;
     }
 
@@ -108,6 +117,8 @@ public class MovieFragment extends Fragment implements MovieView {
         Log.e(TAG, PATH + movie.getPosterPath());
         Picasso.with(getContext())
                 .load(PATH + movie.getPosterPath())
+                .centerCrop()
+                .resize(constraintLayout.getMeasuredWidth(), constraintLayout.getMeasuredHeight())
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -156,7 +167,7 @@ public class MovieFragment extends Fragment implements MovieView {
      */
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), "What a terrible failure", Toast.LENGTH_SHORT);
+        Snackbar.make(getView(), "Somting going wrong", Snackbar.LENGTH_LONG).show();
     }
 
     @Override

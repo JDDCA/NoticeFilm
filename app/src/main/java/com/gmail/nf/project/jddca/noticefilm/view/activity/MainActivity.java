@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
@@ -43,10 +42,10 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         // Фрагмент с фильмом | Fragment with movie info
-        MovieFragment movieFragment = new MovieFragment();
+        MovieFragment randomMovieFragment = new MovieFragment();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.add(R.id.fragment_container, movieFragment);
+        fragmentTransaction.add(R.id.fragment_container, randomMovieFragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
 
