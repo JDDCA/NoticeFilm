@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:id="@+id/movie_constraint_layout"
     android:layout_height="match_parent"
-    android:background="@drawable/lock_stock"
-    android:backgroundTint="@color/backgroundOpacityColor"
-    android:backgroundTintMode="src_atop"
     android:orientation="vertical"
     tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.MovieFragment">
 
@@ -43,9 +40,10 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorAccent"
+        style="Base.Widget.AppCompat.Button.Colored"
+        android:background="@color/accent"
         android:text="@string/advice"
-        android:textColor="@color/posterTextColor"
+        android:textColor="@color/primary_text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
