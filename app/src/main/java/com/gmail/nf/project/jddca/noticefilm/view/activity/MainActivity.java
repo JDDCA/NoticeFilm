@@ -2,20 +2,26 @@ package com.gmail.nf.project.jddca.noticefilm.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseUtils;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.FragmentMove;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.FragmentTest;
 
-import java.util.ArrayList;
-
-import devlight.io.library.ntb.NavigationTabBar;
 import lombok.experimental.PackagePrivate;
+
+import static com.gmail.nf.project.jddca.noticefilm.R.id.action_favorite;
+import static com.gmail.nf.project.jddca.noticefilm.R.id.action_generate;
+import static com.gmail.nf.project.jddca.noticefilm.R.id.action_list;
+import static com.gmail.nf.project.jddca.noticefilm.R.id.action_profile;
+import static com.gmail.nf.project.jddca.noticefilm.R.id.action_watch;
 
 
 /**
@@ -23,13 +29,11 @@ import lombok.experimental.PackagePrivate;
  * Главное Activity всего приложения
  */
 @PackagePrivate
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-
-    private PagerAdapter pagerAdapter;
-    private ViewPager vp;
     public final String TAG = getClass().getSimpleName();
-
+    BottomNavigationView bnv;
+    Fragment mFragment;
 //    @Getter
 //    private int randomID;
 //
@@ -46,12 +50,12 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity_with_ntb);
-        initNtb();
+        setContentView(R.layout.activity_main_container);
+
+        bnv = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        bnv.setOnNavigationItemSelectedListener(this);
+        bnv.setSelectedItemId(R.id.action_generate);//Выбранный элемент при запуске
         }
-
-
-
 
 
 
@@ -98,77 +102,67 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case action_generate:
+                mFragment = FragmentMove.newInctace(0, "generate");
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_container, mFragment)
+                        .commit();
+                //changeFragment(new FragmentMove());
+                break;
+            case action_favorite:
+                mFragment = FragmentTest.newInctace(1, "favorite");
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_container, mFragment)
+                        .commit();
+                //changeFragment(new FragmentTest());
+                break;
+            case action_list:
+                mFragment = FragmentMove.newInctace(2, "list");
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_container, mFragment)
+                        .commit();
+                break;
+            case action_watch:
+                mFragment = FragmentTest.newInctace(3, "watch");
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_container, mFragment)
+                        .commit();
+                break;
+            case action_profile:
+                mFragment = FragmentMove.newInctace(4, "profile");
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.movie_container, mFragment)
+                        .commit();
+                break;
+
+        }
+        return true;
+    }
+
+    /**
+     * метод для добавления/замены фрагмента
+     * если использовать его тогда нет необходимости в методе NewInstace во фрагментах
+     */
+    private void changeFragment(Fragment fragment){
+        if (fragment != null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_container, fragment)
+                    //.addToBackStack(TAG) нужен?
+                    .commit();
+        }else {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.movie_container, fragment)
+                    .commit();
+        }
+    }
+
 //    @OnClick(R.id.advice_btn)
 //    public void onClick(View view) {
 //        randomID = (int) (Math.random() + 500);
 //    }
-
-
-    /*Метод для инициализации NTB,
-    может конечно можно вынести в отдельный класс,
-    но я пока не успел, пока думаю так сойдет
-     */
-    private void initNtb() {
-        // определяем ViewPager
-        vp = (ViewPager)findViewById(R.id.vp_horisontal);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        vp.setAdapter(pagerAdapter);
-
-        final String[] colors = getResources().getStringArray(R.array.color_icons);//массив цветов для выбранной иконки
-        final NavigationTabBar ntb = (NavigationTabBar) findViewById(R.id.ntb_horisontal);
-        final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
-
-        //Устанавливаем иконки, цвет выбраной иконки и т.д.
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_light_bulb_24dp),
-                Color.parseColor(colors[0]))//немного поиксперементировал с цветами
-                //.badgeTitle("1") устанавливает что-то вроде подсказки над иконкой, думаю пока нет необходимости ставить ее
-                .title("Generate")
-                .build());
-
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_film_favorite_24dp),
-                Color.parseColor(colors[1]))
-                .title("Favorite")
-                .build());
-
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_play_movie_24dp),
-                Color.parseColor(colors[2]))
-                .title("Play")
-                .build());
-
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_profile_24dp),
-                Color.parseColor(colors[3]))
-                .title("Profile")
-                .build());
-
-        ntb.setModels(models);//подключает модели к NTB
-        ntb.setViewPager(vp, 0);//Подключает ViewPager и устанавливает начальную позицию
-
-
-        /*
-        Листнеры, в них пока особо не успел разбираться, без них пока все вроде работает
-
-        ntb.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                ntb.getModels().get(position).hideBadge();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        */
-    }
 
 
 }

@@ -49,7 +49,7 @@ public class FragmentTest extends Fragment {
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Hello, I page " + page, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Hello, I'm page " + page, Toast.LENGTH_SHORT).show();
             }
         });
 

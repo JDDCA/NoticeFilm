@@ -48,7 +48,7 @@ public class FragmentMove extends Fragment {
         bn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Hello, I page " + page, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Hello, I'm page " + page, Toast.LENGTH_LONG).show();
             }
         });
 
