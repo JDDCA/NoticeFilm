@@ -2,9 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
-
     <item
         android:id="@+id/action_generate"
         android:enabled="true"
@@ -15,19 +12,19 @@
         android:id="@+id/action_favorite"
         android:enabled="true"
         android:icon="@drawable/ic_film_favorite_24dp"
-        android:title="@string/generate"
+        android:title="@string/favorites"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_list"
         android:enabled="true"
         android:icon="@drawable/ic_list_24dp"
-        android:title="@string/generate"
+        android:title="@string/list"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_watch"
         android:enabled="true"
         android:icon="@drawable/ic_play_movie_24dp"
-        android:title="@string/generate"
+        android:title="@string/something"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_profile"

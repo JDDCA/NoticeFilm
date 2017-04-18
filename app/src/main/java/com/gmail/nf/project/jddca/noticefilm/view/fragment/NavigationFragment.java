@@ -22,7 +22,7 @@ import butterknife.Unbinder;
  * Фрагмент для NavigationTabBar
  */
 
-public class NavigationTabFragment extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class NavigationFragment extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.bottom_navigation) BottomNavigationView bnv;
     private Unbinder unbinder;
@@ -49,6 +49,6 @@ public class NavigationTabFragment extends Fragment implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){}
-        return false;
+        return true;
     }
 }

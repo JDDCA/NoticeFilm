@@ -8,6 +8,9 @@
     <string name="advice">Advice</string>
     <string name="profile">Profile</string>
     <string name="generate">Generate</string>
+    <string name="favorites">Favorites</string>
+    <string name="list">List</string>
+    <string name="something">Something</string>
     <string-array name="genres">
         <item>Action</item>
         <item>Comedy</item>
