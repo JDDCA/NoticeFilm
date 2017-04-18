@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
-import com.firebase.ui.auth.ResultCodes;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseUtils;
 import com.gmail.nf.project.jddca.noticefilm.presenter.LoginPresenter;
@@ -31,8 +27,11 @@ public class LoginFragment extends Fragment {
 
     private LoginPresenter loginPresenter;
 
-    @BindView(R.id.signInGoogle) SignInButton signInButton;
-    @BindView(R.id.signInAnonymously) AppCompatButton signInAnonymously;
+    @BindView(R.id.signInGoogle)
+    SignInButton signInButton;
+    @BindView(R.id.anonymousSignIn)
+    TextView signInAnonymously;
+
     private Unbinder unbinder;
 
     public LoginFragment() {
@@ -43,8 +42,8 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_fragment,container,false);
-        unbinder = ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.login_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         signInButton.setOnClickListener(v -> loginPresenter.login(FirebaseUtils.GOOGLE_PROVIDER));
         signInAnonymously.setOnClickListener(v -> loginPresenter.login(FirebaseUtils.ANONYMOUSLY_PROVIDER));
         return view;
@@ -62,7 +61,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FirebaseUtils.RC_SIGN_IN) {
-            loginPresenter.checkResult(resultCode,data);
+            loginPresenter.checkResult(resultCode, data);
         }
     }
 }

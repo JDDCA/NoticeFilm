@@ -6,10 +6,11 @@ import com.gmail.nf.project.jddca.noticefilm.model.pojos.Movie;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MovieService {
 
-    @GET("movie/{movie_id}?api_key=e155ee391fe67e4bced2832115371e0c")
-    Observable<Movie> get(@Path("movie_id") long id, @Path("api_key") String key);
+    @GET("movie/{id}?api_key=&language=")
+    Observable<Movie> getMovie(@Path("id") String id, @Query("api_key") String key, @Query("lang") String language);
 
 }
