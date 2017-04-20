@@ -76,9 +76,15 @@ dependencies {
     //MSL
     compile 'com.android.support:multidex:' + multidex
 
-    //Navigatin Tab Bar
+    //UI
+        //Navigatin Tab Bar
 //    compile 'devlight.io:navigationtabbar:1.2.5'
     compile 'com.android.support:design:' + supportDesign
+        //Spinner
+    compile 'com.jaredrummler:material-spinner:1.1.0'
+        //ProgressBar
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'

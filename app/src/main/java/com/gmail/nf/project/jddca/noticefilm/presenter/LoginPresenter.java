@@ -18,8 +18,8 @@ import lombok.experimental.PackagePrivate;
 @PackagePrivate
 public class LoginPresenter {
 
-    LoginFragment fragment;
-    DataManager dataManager;
+    private LoginFragment fragment;
+    private DataManager dataManager;
 
     public LoginPresenter() {
         dataManager = DataManager.getInstance();

@@ -14,8 +14,8 @@
         android:paddingTop="100dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="start"
-        android:text="The\n Movie\n Adviser"
-        android:textColor="#fff"
+        android:text="@string/login_title"
+        android:textColor="@color/icons"
         android:textSize="52sp" />
 
     <LinearLayout
@@ -38,27 +38,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:paddingTop="25dp"
-            android:text="Anonymous Sign In >>"
-            android:textColor="#fff"
+            android:text="@string/login_anonymous"
+            android:textColor="@color/icons"
             android:textSize="15sp"
             android:textStyle="italic|normal" />
-
     </LinearLayout>
-
-
-    <!--<android.support.v7.widget.AppCompatButton-->
-    <!--android:id="@+id/signInAnonymously"-->
-    <!--style="@style/Widget.AppCompat.Button.Colored"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Anonymously"-->
-    <!--android:visibility="visible"-->
-    <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="0.501"-->
-    <!--app:layout_constraintLeft_toLeftOf="parent"-->
-    <!--app:layout_constraintRight_toRightOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:layout_constraintVertical_bias="0.647" />-->
-
 
 </LinearLayout>

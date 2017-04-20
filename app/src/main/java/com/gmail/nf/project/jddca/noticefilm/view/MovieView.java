@@ -1,12 +1,12 @@
 package com.gmail.nf.project.jddca.noticefilm.view;
 
 
-import com.gmail.nf.project.jddca.noticefilm.model.pojos.Movie;
+import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 
-public interface MovieView extends IView {
+public interface MovieView {
 
-    void showMovie(Movie movie);
+    void showMovie(Film film);
 
-    void showError();
+    void showError(Throwable throwable);
 
 }

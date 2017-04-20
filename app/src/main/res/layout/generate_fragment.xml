@@ -1,13 +1,30 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/movie_constraint_layout"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.MovieFragment">
+    tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment">
 
-    <Spinner
+    <include
+        layout="@layout/progress_bar"
+        android:visibility="gone"
+        android:id="@+id/includeProgressBar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:visibility="visible"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/spinner"
         android:layout_width="344dp"
         android:layout_height="wrap_content"
@@ -16,6 +33,9 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:text="@string/random"
+        app:ms_text_color="@color/primary_text"
+        app:ms_arrow_tint="@color/primary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +50,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/include" />
+        android:id="@+id/include"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <Button
         android:id="@+id/generate_btn"
@@ -50,7 +72,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
-        tools:layout_editor_absoluteY="396dp" />
-
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
 </android.support.constraint.ConstraintLayout>
+</FrameLayout>

@@ -11,12 +11,8 @@
     <string name="favorites">Favorites</string>
     <string name="list">List</string>
     <string name="something">Something</string>
-    <string-array name="genres">
-        <item>Action</item>
-        <item>Comedy</item>
-        <item>Drama</item>
-        <item>Family</item>
-    </string-array>
-    <string name="key">e155ee391fe67e4bced2832115371e0c</string>
-    <string name="lang">us-US</string>
+    <string name="login_title">The\n Movie\n Adviser</string>
+    <string name="login_anonymous">Anonymous Sign In >></string>
+    <string name="random">Random</string>
+    <string name="wait">Please wait</string>
 </resources>
