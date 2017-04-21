@@ -22,7 +22,6 @@ public class SpisokNewFilms extends Fragment {
         return inflater.inflate(R.layout.fragment_spisok_new_films, container, false);
 
 
-
     }
 
 }
