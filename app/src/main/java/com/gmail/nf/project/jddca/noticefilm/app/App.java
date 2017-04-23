@@ -2,8 +2,6 @@ package com.gmail.nf.project.jddca.noticefilm.app;
 
 import android.support.multidex.MultiDexApplication;
 
-import com.gmail.nf.project.jddca.noticefilm.model.DataManager;
-
 import lombok.experimental.PackagePrivate;
 
 /**
@@ -19,7 +17,6 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        DataManager.getInstance();
     }
 
 }
