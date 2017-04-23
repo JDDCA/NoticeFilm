@@ -1,41 +1,101 @@
 package com.gmail.nf.project.jddca.noticefilm.presenter;
 
-import android.content.Context;
-import android.os.Build;
-import android.os.LocaleList;
-import android.util.Log;
-
-import com.gmail.nf.project.jddca.noticefilm.R;
-import com.gmail.nf.project.jddca.noticefilm.model.DataManager;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genre;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitUtils;
-import com.gmail.nf.project.jddca.noticefilm.view.MovieViewGenerate;
+import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieService;
+import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieServiceImpl;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
+import com.gmail.nf.project.jddca.noticefilm.view.MovieView;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment;
 
+import java.util.Random;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import lombok.Setter;
 import lombok.experimental.PackagePrivate;
 
 @PackagePrivate
-public class GeneratePresenter {
+public class GeneratePresenter implements Presenter {
 
     private final String TAG = getClass().getSimpleName();
 
-    private DataManager dm;
-    @Setter private GenerateFragment generateFragment;
+    private MovieView view;
+    private GenerateMovieService service;
 
-    public GeneratePresenter() {
-        dm = DataManager.getInstance();
+    @Setter
+    private GenerateFragment generateFragment;
+
+    public GeneratePresenter(MovieView view) {
+        service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
+        this.view = view;
     }
 
     public void initSpinner() {
-                dm.initGenres(generateFragment,generateFragment.getContext());
+//        GenerateMovieService service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
+        service.getGenres(ApiService.getApiKey(generateFragment.getContext()), ApiService.getLocales(generateFragment.getContext()))
+                .subscribeOn(Schedulers.io()).take(1)
+                .map(genres -> genres.getGenres().get(new Random().nextInt(genres.getGenres().size())))
+                .subscribe(
+                        genre -> service.getPages(Integer.toString(genre.getId()),
+                                ApiService.getApiKey(generateFragment.getContext()),
+                                ApiService.getLocales(generateFragment.getContext()))
+                                .take(1)
+                                .subscribe(
+                                        pages -> service.getPage(Integer.toString(genre.getId()),
+                                                ApiService.getApiKey(generateFragment.getContext()),
+                                                ApiService.getLocales(generateFragment.getContext()),
+                                                new Random().nextInt(pages.getTotalPages()))
+                                                .take(1)
+                                                .map(pageMovieForGenre -> pageMovieForGenre.getResults()
+                                                        .get(new Random().nextInt(pageMovieForGenre.getResults().size())))
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(view::showMovie, view::showError)
+                                        , view::showError)
+                        , view::showError);
     }
 
     public void adviceFilm(Genre genre) {
-        if (genre.getId()!=RetrofitUtils.RANDOM_FILM){
-            dm.getFilm(generateFragment,generateFragment.getContext(),genre.getId());
-        }else {
-            dm.getRandomFilm(generateFragment,generateFragment.getContext());
+        if (genre.getId() != RetrofitService.RANDOM_FILM) {
+            getFilm(genre.getId());
+        } else {
+            getRandomFilm(ApiService.getApiKey(generateFragment.getContext()), ApiService.getLocales(generateFragment.getContext()));
         }
     }
+
+
+    private void getRandomFilm(String key, String lang) {
+//        GenerateMovieService service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
+        service.getGenres(key, lang)
+                .subscribeOn(Schedulers.io()).take(1)
+                .map(genres -> genres.getGenres().get(new Random().nextInt(genres.getGenres().size())))
+                .subscribe(
+                        genre -> service.getPages(Integer.toString(genre.getId()), key, lang).take(1)
+                                .subscribe(
+                                        pages -> service.getPage(Integer.toString(genre.getId()), key, lang,
+                                                new Random().nextInt(pages.getTotalPages())).take(1)
+                                                .map(pageMovieForGenre -> pageMovieForGenre.getResults()
+                                                        .get(new Random().nextInt(pageMovieForGenre.getResults().size())))
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(view::showMovie, view::showError)
+                                        , view::showError)
+                        , view::showError);
+    }
+
+    private void getFilm(Integer id) {
+//        GenerateMovieService service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
+        service.getPages(Integer.toString(id), ApiService.getApiKey(generateFragment.getContext()), ApiService.getLocales(generateFragment.getContext()))
+                .subscribeOn(Schedulers.io()).take(1)
+                .subscribe(
+                        pages -> service.getPage(Integer.toString(id),
+                                ApiService.getApiKey(generateFragment.getContext()),
+                                ApiService.getLocales(generateFragment.getContext()),
+                                new Random().nextInt(pages.getTotalPages())).take(1)
+                                .map(pageMovieForGenre -> pageMovieForGenre.getResults()
+                                        .get(new Random().nextInt(pageMovieForGenre.getResults().size())))
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(view::showMovie, view::showError)
+                        , view::showError);
+    }
+
 }
