@@ -4,13 +4,10 @@ package com.gmail.nf.project.jddca.noticefilm.model.rest;
 
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genres;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.PageMovieForGenre;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitUtils;
 
 import io.reactivex.Observable;
 import lombok.experimental.PackagePrivate;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
