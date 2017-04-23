@@ -1,15 +1,9 @@
 package com.gmail.nf.project.jddca.noticefilm.view.fragment;
 
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -23,20 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.CubeGrid;
-import com.github.ybq.android.spinkit.style.DoubleBounce;
-import com.github.ybq.android.spinkit.style.WanderingCubes;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genre;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitUtils;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.GeneratePresenter;
 import com.gmail.nf.project.jddca.noticefilm.view.MovieViewGenerate;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,24 +83,24 @@ public class GenerateFragment extends Fragment implements MovieViewGenerate {
 
     public GenerateFragment() {
         // Required empty public constructor
-        if (genres == null){
+        if (genres == null) {
             genres = new ArrayList<>();
-            genres.add(new Genre(RetrofitUtils.RANDOM_FILM, "Random"));
+            genres.add(new Genre(RetrofitService.RANDOM_FILM, "Random"));
         }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new GeneratePresenter();
+        presenter = new GeneratePresenter(this);
         presenter.setGenerateFragment(this);
-        if (savedInstanceState!=null){
-            if (savedInstanceState.getParcelableArrayList(SPINNER_LIST)!=null)
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getParcelableArrayList(SPINNER_LIST) != null)
                 this.genres = savedInstanceState.getParcelableArrayList(SPINNER_LIST);
-            if (savedInstanceState.getParcelable(FILM)!=null)
+            if (savedInstanceState.getParcelable(FILM) != null)
                 this.film = savedInstanceState.getParcelable(FILM);
             saved = true;
-        }else{
+        } else {
             saved = false;
             presenter.initSpinner();
             presenter.adviceFilm(genres.get(0));
@@ -123,14 +113,14 @@ public class GenerateFragment extends Fragment implements MovieViewGenerate {
         View view = inflater.inflate(R.layout.generate_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
-        if (saved){
+        if (saved) {
             materialSpinner.setItems(toStringList(genres));
             // TODO: 20.04.2017  Fix java.lang.IllegalArgumentException: At least one dimension has to be positive number in setFilmCard(film) as poster.getMeasuredWidth() == 0 && poster.getMeasuredHeight() == 0
-            setFilmCard(film,saved);
+            setFilmCard(film, saved);
         }
         button.setOnClickListener(v -> {
             presenter.adviceFilm(genres.get(materialSpinner.getSelectedIndex()));
-            getProgressBar(constraintLayout,layout);
+            getProgressBar(constraintLayout, layout);
         });
         return view;
     }
@@ -147,18 +137,18 @@ public class GenerateFragment extends Fragment implements MovieViewGenerate {
     public void showMovie(Film film) {
         Log.i(TAG, "showMovie: " + film.toString());
         this.film = film;
-        setFilmCard(film,saved);
+        setFilmCard(film, saved);
     }
 
     @Override
     public void showError(Throwable throwable) {
-        getHost(constraintLayout,layout);
-        if (throwable.getMessage().startsWith(RetrofitUtils.UNKNOW_HOST_EXEPTION))
-            DialogFactory.newInstance(R.string.error,R.string.dialog_network_error)
-                    .show(getFragmentManager(),DialogFactory.DIALOG_ERROR);
-        if (throwable.getMessage().startsWith(RetrofitUtils.BAD_REQUEST))
-            DialogFactory.newInstance(R.string.error,R.string.dialog_unknown_error)
-                    .show(getFragmentManager(),DialogFactory.DIALOG_ERROR);
+        getHost(constraintLayout, layout);
+        if (throwable.getMessage().startsWith(RetrofitService.UNKNOW_HOST_EXEPTION))
+            DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
+                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+        if (throwable.getMessage().startsWith(RetrofitService.BAD_REQUEST))
+            DialogFactory.newInstance(R.string.error, R.string.dialog_unknown_error)
+                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
     }
 
     @Override
@@ -167,49 +157,50 @@ public class GenerateFragment extends Fragment implements MovieViewGenerate {
         materialSpinner.setItems(toStringList(genres));
     }
 
-    private void setFilmCard (Film film,boolean saved){
-        if (!saved){
-        Picasso.with(getContext())
-                .load(RetrofitUtils.BASE_PATH_POSTER + film.getPosterPath())
-                .centerCrop()
-                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
-                .into(poster);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (genres != null)
+            outState.putParcelableArrayList(SPINNER_LIST, genres);
+        if (film != null)
+            outState.putParcelable(FILM, film);
+    }
+
+    private void setFilmCard(Film film, boolean saved) {
+        if (!saved) {
+            Picasso.with(getContext())
+                    .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
+                    .centerCrop()
+                    .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
+                    .into(poster);
         } else {
             Picasso.with(getContext())
-                    .load(RetrofitUtils.BASE_PATH_POSTER + film.getPosterPath())
+                    .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
                     .into(poster);
         }
         originalTitle.setText(film.getOriginalTitle());
         title.setText(film.getTitle());
         description.setText(film.getOverview());
-        year.setText(film.getReleaseDate().substring(0,4));
-        getHost(constraintLayout,layout);
+        year.setText(film.getReleaseDate().substring(0, 4));
+        getHost(constraintLayout, layout);
     }
 
-    private List<String> toStringList (List <Genre> genres){
+    private List<String> toStringList(List<Genre> genres) {
         List<String> strings = new ArrayList<>();
         Observable.fromIterable(genres)
                 .map(Genre::getName)
-                .map(s -> s.substring(0,1).toUpperCase()+s.substring(1,s.length()))
+                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1, s.length()))
                 .subscribe(strings::add);
         return strings;
     }
 
-    private void getProgressBar (ConstraintLayout constraintLayout, LinearLayout linearLayout){
+    private void getProgressBar(ConstraintLayout constraintLayout, LinearLayout linearLayout) {
         constraintLayout.setVisibility(View.GONE);
         linearLayout.setVisibility(View.VISIBLE);
     }
-    private void getHost (ConstraintLayout constraintLayout, LinearLayout linearLayout){
+
+    private void getHost(ConstraintLayout constraintLayout, LinearLayout linearLayout) {
         constraintLayout.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (genres!=null)
-        outState.putParcelableArrayList(SPINNER_LIST,genres);
-        if (film!=null)
-        outState.putParcelable(FILM,film);
     }
 }

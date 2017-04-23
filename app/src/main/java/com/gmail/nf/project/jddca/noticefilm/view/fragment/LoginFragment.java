@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseUtils;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.LoginPresenter;
 import com.google.android.gms.common.SignInButton;
 
@@ -44,8 +44,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        signInButton.setOnClickListener(v -> loginPresenter.login(FirebaseUtils.GOOGLE_PROVIDER));
-        signInAnonymously.setOnClickListener(v -> loginPresenter.login(FirebaseUtils.ANONYMOUSLY_PROVIDER));
+        signInButton.setOnClickListener(v -> loginPresenter.login(FirebaseService.GOOGLE_PROVIDER));
+        signInAnonymously.setOnClickListener(v -> loginPresenter.login(FirebaseService.ANONYMOUSLY_PROVIDER));
         return view;
     }
 
@@ -60,8 +60,8 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FirebaseUtils.RC_SIGN_IN) {
-            loginPresenter.checkResult(resultCode, data);
+        if (requestCode == FirebaseService.RC_SIGN_IN) {
+            loginPresenter.checkResultSigned(resultCode, data);
         }
     }
 }
