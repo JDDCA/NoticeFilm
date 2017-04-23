@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseUtils;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.view.base.SingleFragmentActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment;
 
@@ -49,7 +49,7 @@ public class MainActivity extends SingleFragmentActivity{
 
     /**Метод для проверки авторизации пользователя.*/
     private void checkSession() {
-        if (!FirebaseUtils.checkSession()) {
+        if (!FirebaseService.checkSession()) {
             startActivity(LoginActivity.createIntent(this));
             finish();
         }
