@@ -1,10 +1,7 @@
 package com.gmail.nf.project.jddca.noticefilm.model.utils;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -15,8 +12,6 @@ import com.firebase.ui.auth.ResultCodes;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.MainActivity;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
@@ -28,7 +23,7 @@ import java.util.Arrays;
  *          Включает в себя методы работы с авторизацией, и бд.
  */
 
-public class FirebaseUtils {
+public class FirebaseService {
 
     /**
      * статическая переменная для @code {requestCode при отправки startActivityForResult} при авторизации пользователя
@@ -47,9 +42,12 @@ public class FirebaseUtils {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
 
-    /**Проверяет аннонимная учетная запись пользователя или нет.
-     * @throws NullPointerException*/
-    public static boolean isAnonymousUser (){
+    /**
+     * Проверяет аннонимная учетная запись пользователя или нет.
+     *
+     * @throws NullPointerException
+     */
+    public static boolean isAnonymousUser() {
         if (!checkSession())
             throw new NullPointerException("isAnonymousUser: user have not signed yet!");
         return FirebaseAuth.getInstance().getCurrentUser().isAnonymous();
@@ -72,7 +70,7 @@ public class FirebaseUtils {
      * Метод для входа через Google+
      */
     public void loginGoogle(@NonNull Fragment fragment) {
-        if (checkSession() != true) {
+        if (!checkSession()) {
             // not signed in
             fragment.startActivityForResult(getGoogleIntent(), RC_SIGN_IN);
         } else {
@@ -83,6 +81,7 @@ public class FirebaseUtils {
     }
 
     // TODO: 12.04.2017  Долго работает метод, нужна заставка
+
     /**
      * Метод аннонимного входа
      */
@@ -94,8 +93,8 @@ public class FirebaseUtils {
 //                        String token = task1.getResult().getToken();
 //                        if (token != null) {
 //                            saveToken(token);
-                            fragment.startActivity(MainActivity.createIntent(fragment.getActivity()));
-                            fragment.getActivity().finish();
+                fragment.startActivity(MainActivity.createIntent(fragment.getActivity()));
+                fragment.getActivity().finish();
 //                        }
 //                    } else {
 //                        DialogFactory.newInstance(R.string.error, R.string.dialog_network_error).show(
@@ -155,15 +154,15 @@ public class FirebaseUtils {
     private String getToken() {
         if (token != null)
             return token;
-        throw new NullPointerException("FirebaseUtils: I haven't token!");
+        throw new NullPointerException("FirebaseService: I haven't token!");
     }
 
     public void logoutGoogle(@NonNull FragmentActivity activity) {
         AuthUI.getInstance()
                 .signOut(activity)
                 .addOnCompleteListener(task -> {
-                   activity.startActivity(LoginActivity.createIntent(activity));
-                   activity.finish();
+                    activity.startActivity(LoginActivity.createIntent(activity));
+                    activity.finish();
                 });
     }
 

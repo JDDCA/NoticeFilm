@@ -2,26 +2,23 @@ package com.gmail.nf.project.jddca.noticefilm.model.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
-import android.view.Window;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 
-/** Класс для создания диалоговых окон*/
-public class DialogFactory extends DialogFragment{
+/**
+ * Класс для создания диалоговых окон
+ */
+public class DialogFactory extends DialogFragment {
 
     private static final String DIALOG_TITLE = "dialog_title";
     private static final String DIALOG_MESSAGE = "dialog_message";
     public static final String DIALOG_ERROR = "dialog_error";
 
 
-
-    public static DialogFragment newInstance(int title){
+    public static DialogFragment newInstance(int title) {
         DialogFragment fragment = new DialogFactory();
         Bundle args = new Bundle();
         args.putInt(DIALOG_TITLE, title);
@@ -29,15 +26,17 @@ public class DialogFactory extends DialogFragment{
         return fragment;
     }
 
-    /** Метод для создания начальных значений диалогового окна
-     * @param titile id титл
+    /**
+     * Метод для создания начальных значений диалогового окна
+     *
+     * @param title   id титл
      * @param message id сообщения
-     * */
-    public static DialogFragment newInstance(int titile, int message){
+     */
+    public static DialogFragment newInstance(int title, int message) {
         DialogFragment fragment = new DialogFactory();
         Bundle args = new Bundle();
-        args.putInt(DIALOG_TITLE,titile);
-        args.putInt(DIALOG_MESSAGE,message);
+        args.putInt(DIALOG_TITLE, title);
+        args.putInt(DIALOG_MESSAGE, message);
         fragment.setArguments(args);
         return fragment;
     }
