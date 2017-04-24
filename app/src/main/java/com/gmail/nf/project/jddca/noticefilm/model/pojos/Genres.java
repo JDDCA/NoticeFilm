@@ -7,15 +7,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.experimental.PackagePrivate;
+import lombok.Data;
 
-@PackagePrivate
-@Setter
-@Getter
-@ToString
+@Data
 public class Genres {
 
     @SerializedName("genres")

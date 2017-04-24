@@ -30,7 +30,7 @@ public class LoginPresenter implements Presenter {
         this.fragment = fragment;
     }
 
-    public void login(@NonNull int PROVIDER) {
+    public void login(int PROVIDER) {
         switch (PROVIDER) {
             case FirebaseService.GOOGLE_PROVIDER:
                 firebaseService.loginGoogle(fragment);
@@ -42,7 +42,7 @@ public class LoginPresenter implements Presenter {
     }
 
 
-    public void checkResultSigned(@NonNull int resultCode, @NonNull Intent data) {
+    public void checkResultSigned(int resultCode, @NonNull Intent data) {
         firebaseService.checkResultSigned(fragment, resultCode, data);
     }
 

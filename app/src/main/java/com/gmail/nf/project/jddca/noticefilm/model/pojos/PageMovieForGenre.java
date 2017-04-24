@@ -5,12 +5,9 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter @Setter @ToString @EqualsAndHashCode
+@Data
 public class PageMovieForGenre {
 
     @SerializedName("id")
