@@ -9,9 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.ErrorCodes;
 import com.gmail.nf.project.jddca.noticefilm.R;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
-import com.gmail.nf.project.jddca.noticefilm.presenter.LoginPresenter;
+import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenter;
+import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenterImpl;
+import com.gmail.nf.project.jddca.noticefilm.view.contract.LoginFragmentContract;
 import com.google.android.gms.common.SignInButton;
 
 import butterknife.BindView;
@@ -23,9 +27,9 @@ import butterknife.Unbinder;
  * Класс для создания login fragment
  */
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment implements LoginFragmentContract {
 
-    private LoginPresenter loginPresenter;
+    private LoginPresenter presenter;
 
     @BindView(R.id.signInGoogle)
     SignInButton signInButton;
@@ -34,9 +38,11 @@ public class LoginFragment extends Fragment {
 
     private Unbinder unbinder;
 
-    public LoginFragment() {
-        loginPresenter = new LoginPresenter();
-        loginPresenter.setFragment(this);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //// TODO: 24.04.2017 поврот экрана???
+        presenter = new LoginPresenterImpl(this);
     }
 
     @Nullable
@@ -44,8 +50,8 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        signInButton.setOnClickListener(v -> loginPresenter.login(FirebaseService.GOOGLE_PROVIDER));
-        signInAnonymously.setOnClickListener(v -> loginPresenter.login(FirebaseService.ANONYMOUSLY_PROVIDER));
+        signInButton.setOnClickListener(v -> presenter.loginGoogle());
+        signInAnonymously.setOnClickListener(v -> presenter.loginAnonymously());
         return view;
     }
 
@@ -54,14 +60,35 @@ public class LoginFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
         // стирает ссылку на презентер и освобождает память
-        loginPresenter = null;
+        presenter = null;
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == FirebaseService.RC_SIGN_IN) {
-            loginPresenter.checkResultSigned(resultCode, data);
+            presenter.checkResultSigned(resultCode, data);
         }
     }
+
+    @Override
+    public Fragment getFrgmnt() {
+        return this;
+    }
+
+    @Override
+    public void showError(Integer response) {
+        if (response != null) {
+            if (response == ErrorCodes.NO_NETWORK)
+            DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
+                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+            if (response == ErrorCodes.UNKNOWN_ERROR)
+                DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
+                        .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+        }else{
+            DialogFactory.newInstance(R.string.error, R.string.dialog_cancel_error)
+                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+        }
+    }
+
 }
