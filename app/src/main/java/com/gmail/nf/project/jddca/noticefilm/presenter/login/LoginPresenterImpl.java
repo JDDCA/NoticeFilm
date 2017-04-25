@@ -15,6 +15,8 @@ import com.gmail.nf.project.jddca.noticefilm.view.contract.LoginFragmentContract
 
 import static com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService.RC_SIGN_IN;
 
+/** Класс реализация входа пользователя
+ * @see com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenter */
 public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresenter {
 
 

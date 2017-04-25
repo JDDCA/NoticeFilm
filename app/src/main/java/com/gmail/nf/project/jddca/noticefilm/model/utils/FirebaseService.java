@@ -75,33 +75,6 @@ public class FirebaseService {
                 .build();
     }
 
-
-
-
-
-
-
-
-
-
-//    /**
-//     * Метод для входа через Google+
-//     */
-//    public void loginGoogle(@NonNull Fragment fragment) {
-//        if (!checkSession()) {
-//            // not signed in
-//            fragment.startActivityForResult(getGoogleIntent(), RC_SIGN_IN);
-//        } else {
-//            // already signed in
-//            fragment.startActivity(MainActivity.createIntent(fragment.getActivity()));
-//            fragment.getActivity().finish();
-//        }
-//    }
-
-    /**
-     * Метод аннонимного входа
-     */
-
 //    public void loginAnonymously(@NonNull Fragment fragment) {
 //        FirebaseAuth.getInstance().signInAnonymously().addOnCompleteListener(fragment.getActivity(), task -> {
 //            if (task.isSuccessful()) {
@@ -124,37 +97,6 @@ public class FirebaseService {
 //            }
 //        });
 //    }
-
-    /**
-     * Метод проверяет результат входа пользователя и сохраняет токен при успешном входе.
-     * При ошибке входа - выводит диологовые окна.
-     */
-//    public void checkResultSigned(@NonNull Fragment fragment, int resultCode, @NonNull Intent data) {
-//        IdpResponse response = IdpResponse.fromResultIntent(data);
-//        if (resultCode != ResultCodes.OK) {
-//            // Sign in failed
-//            if (response == null) {
-//                // User pressed back button
-//                DialogFactory.newInstance(R.string.error, R.string.dialog_cancel_error)
-//                        .show(fragment.getFragmentManager(), DialogFactory.DIALOG_ERROR);
-//            }
-//            if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-//                // Error Network
-//                DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
-//                        .show(fragment.getFragmentManager(), DialogFactory.DIALOG_ERROR);
-//            }
-//            if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-//                // UNKNOWN_ERROR
-//                DialogFactory.newInstance(R.string.error, R.string.dialog_unknown_error)
-//                        .show(fragment.getFragmentManager(), DialogFactory.DIALOG_ERROR);
-//            }
-//        } else {
-//            saveToken(response);
-//            fragment.startActivity(MainActivity.createIntent(fragment.getActivity()));
-//            fragment.getActivity().finish();
-//        }
-//    }
-
 
     public void logoutGoogle(@NonNull FragmentActivity activity) {
         AuthUI.getInstance()

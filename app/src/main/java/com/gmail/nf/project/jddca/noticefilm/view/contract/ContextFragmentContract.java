@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
+/**Базовый интерфейс для работы с фрагментами*/
 public interface ContextFragmentContract {
     Context getCntxt ();
     Fragment getFrgmnt ();

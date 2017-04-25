@@ -4,6 +4,8 @@ package com.gmail.nf.project.jddca.noticefilm.presenter.base;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+/** Базовый класс реадизация
+ * @see BasePresenter */
 public class BasePresenterImpl implements BasePresenter{
     @Override
     public void onCreate() {

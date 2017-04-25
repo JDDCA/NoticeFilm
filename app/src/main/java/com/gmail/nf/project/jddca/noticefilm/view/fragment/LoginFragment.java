@@ -24,7 +24,8 @@ import butterknife.Unbinder;
 
 /**
  * Created by Yaroslav Lutsenko on 12.04.2017.
- * Класс для создания login fragment
+ * Класс для создания login fragment реализует интерфейс
+ * @see LoginFragmentContract
  */
 
 public class LoginFragment extends BaseFragment implements LoginFragmentContract {

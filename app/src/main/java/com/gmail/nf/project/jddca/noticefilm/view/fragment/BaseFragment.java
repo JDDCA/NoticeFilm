@@ -10,6 +10,9 @@ import android.util.Log;
 
 import com.gmail.nf.project.jddca.noticefilm.view.contract.ContextFragmentContract;
 
+/**Базовый класс реализации базового интерфейса для фрагментов
+ * @see ContextFragmentContract*/
+
 public abstract class BaseFragment extends Fragment implements ContextFragmentContract {
 
     @Override
