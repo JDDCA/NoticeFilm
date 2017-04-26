@@ -15,6 +15,6 @@
     <string name="something">Something</string>
     <string name="login_title">The\n Movie\n Adviser</string>
     <string name="login_anonymous">Anonymous Sign In >></string>
-    <string name="random">Random</string>
+    <string name="random">All genres</string>
     <string name="wait">Please wait</string>
 </resources>
