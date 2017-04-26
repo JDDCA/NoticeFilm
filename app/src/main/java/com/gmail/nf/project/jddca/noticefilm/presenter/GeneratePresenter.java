@@ -6,7 +6,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieServiceImpl
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.view.MovieView;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl;
 
 import java.util.Random;
 
@@ -24,7 +24,7 @@ public class GeneratePresenter implements Presenter {
     private GenerateMovieService service;
 
     @Setter
-    private GenerateFragment generateFragment;
+    private GenerateFragmentImpl generateFragmentImpl;
 
     public GeneratePresenter(MovieView view) {
         service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
@@ -33,18 +33,18 @@ public class GeneratePresenter implements Presenter {
 
     public void initSpinner() {
 //        GenerateMovieService service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
-        service.getGenres(ApiService.getApiKey(generateFragment.getContext()), ApiService.getLocales(generateFragment.getContext()))
+        service.getGenres(ApiService.getApiKey(generateFragmentImpl.getContext()), ApiService.getLocales(generateFragmentImpl.getContext()))
                 .subscribeOn(Schedulers.io()).take(1)
                 .map(genres -> genres.getGenres().get(new Random().nextInt(genres.getGenres().size())))
                 .subscribe(
                         genre -> service.getPages(Integer.toString(genre.getId()),
-                                ApiService.getApiKey(generateFragment.getContext()),
-                                ApiService.getLocales(generateFragment.getContext()))
+                                ApiService.getApiKey(generateFragmentImpl.getContext()),
+                                ApiService.getLocales(generateFragmentImpl.getContext()))
                                 .take(1)
                                 .subscribe(
                                         pages -> service.getPage(Integer.toString(genre.getId()),
-                                                ApiService.getApiKey(generateFragment.getContext()),
-                                                ApiService.getLocales(generateFragment.getContext()),
+                                                ApiService.getApiKey(generateFragmentImpl.getContext()),
+                                                ApiService.getLocales(generateFragmentImpl.getContext()),
                                                 new Random().nextInt(pages.getTotalPages()))
                                                 .take(1)
                                                 .map(pageMovieForGenre -> pageMovieForGenre.getResults()
@@ -59,7 +59,7 @@ public class GeneratePresenter implements Presenter {
         if (genre.getId() != RetrofitService.RANDOM_FILM) {
             getFilm(genre.getId());
         } else {
-            getRandomFilm(ApiService.getApiKey(generateFragment.getContext()), ApiService.getLocales(generateFragment.getContext()));
+            getRandomFilm(ApiService.getApiKey(generateFragmentImpl.getContext()), ApiService.getLocales(generateFragmentImpl.getContext()));
         }
     }
 
@@ -84,12 +84,12 @@ public class GeneratePresenter implements Presenter {
 
     private void getFilm(Integer id) {
 //        GenerateMovieService service = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
-        service.getPages(Integer.toString(id), ApiService.getApiKey(generateFragment.getContext()), ApiService.getLocales(generateFragment.getContext()))
+        service.getPages(Integer.toString(id), ApiService.getApiKey(generateFragmentImpl.getContext()), ApiService.getLocales(generateFragmentImpl.getContext()))
                 .subscribeOn(Schedulers.io()).take(1)
                 .subscribe(
                         pages -> service.getPage(Integer.toString(id),
-                                ApiService.getApiKey(generateFragment.getContext()),
-                                ApiService.getLocales(generateFragment.getContext()),
+                                ApiService.getApiKey(generateFragmentImpl.getContext()),
+                                ApiService.getLocales(generateFragmentImpl.getContext()),
                                 new Random().nextInt(pages.getTotalPages())).take(1)
                                 .map(pageMovieForGenre -> pageMovieForGenre.getResults()
                                         .get(new Random().nextInt(pageMovieForGenre.getResults().size())))

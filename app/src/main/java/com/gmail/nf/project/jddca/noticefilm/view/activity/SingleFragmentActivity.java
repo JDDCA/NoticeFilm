@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.view.base;
+package com.gmail.nf.project.jddca.noticefilm.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.NavigationFragment;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.navigation.NavigationFragment;
 
 /**
  * Базовый класс для Activity, помогает создать хост с 1 фрагментом

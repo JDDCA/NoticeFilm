@@ -5,17 +5,15 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.gmail.nf.project.jddca.noticefilm.view.base.SingleFragmentActivity;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.LoginFragment;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.login.LoginFragmentImplImpl;
 
 /**Activity для авторизации пользователя.*/
 public class LoginActivity extends SingleFragmentActivity{
 
-    /**Метод устанавливает фрагмент для LoginActivity {@link LoginFragment}*/
+    /**Метод устанавливает фрагмент для LoginActivity {@link LoginFragmentImplImpl}*/
     @Override
     protected Fragment createFragment() {
-        return new LoginFragment();
+        return new LoginFragmentImplImpl();
     }
 
     /**@see SingleFragmentActivity#createButtonNavigationFragment()*/

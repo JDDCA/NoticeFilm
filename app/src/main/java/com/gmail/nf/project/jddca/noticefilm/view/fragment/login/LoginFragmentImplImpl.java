@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.view.fragment;
+package com.gmail.nf.project.jddca.noticefilm.view.fragment.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenterImpl;
-import com.gmail.nf.project.jddca.noticefilm.view.contract.LoginFragmentContract;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
 import com.google.android.gms.common.SignInButton;
 
 import butterknife.BindView;
@@ -25,10 +25,10 @@ import butterknife.Unbinder;
 /**
  * Created by Yaroslav Lutsenko on 12.04.2017.
  * Класс для создания login fragment реализует интерфейс
- * @see LoginFragmentContract
+ * @see LoginFragment
  */
 
-public class LoginFragment extends BaseFragment implements LoginFragmentContract {
+public class LoginFragmentImplImpl extends ContextFragmentImpl implements LoginFragment {
 
     private LoginPresenter presenter;
 

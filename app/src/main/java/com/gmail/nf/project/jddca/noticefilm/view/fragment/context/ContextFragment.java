@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.view.contract;
+package com.gmail.nf.project.jddca.noticefilm.view.fragment.context;
 
 
 import android.app.Activity;
@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 /**Базовый интерфейс для работы с фрагментами*/
-public interface ContextFragmentContract {
+public interface ContextFragment {
     Context getCntxt ();
     Fragment getFrgmnt ();
     Activity getActvt ();

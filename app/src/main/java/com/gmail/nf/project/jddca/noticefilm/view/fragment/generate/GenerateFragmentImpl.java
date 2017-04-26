@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.view.fragment;
+package com.gmail.nf.project.jddca.noticefilm.view.fragment.generate;
 
 
 import android.os.Bundle;
@@ -41,7 +41,7 @@ import lombok.experimental.PackagePrivate;
  * A simple {@link Fragment} subclass.
  */
 @PackagePrivate
-public class GenerateFragment extends Fragment implements MovieViewGenerate {
+public class GenerateFragmentImpl extends Fragment implements MovieViewGenerate {
 
     private final String TAG = getClass().getSimpleName();
     public static final String SPINNER_LIST = "com.gmail.nf.project.jddca.noticefilm.view.fragment.SPINNER_LIST ";
@@ -81,7 +81,7 @@ public class GenerateFragment extends Fragment implements MovieViewGenerate {
     private boolean saved;
 
 
-    public GenerateFragment() {
+    public GenerateFragmentImpl() {
         // Required empty public constructor
         if (genres == null) {
             genres = new ArrayList<>();
@@ -93,7 +93,7 @@ public class GenerateFragment extends Fragment implements MovieViewGenerate {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new GeneratePresenter(this);
-        presenter.setGenerateFragment(this);
+        presenter.setGenerateFragmentImpl(this);
         if (savedInstanceState != null) {
             if (savedInstanceState.getParcelableArrayList(SPINNER_LIST) != null)
                 this.genres = savedInstanceState.getParcelableArrayList(SPINNER_LIST);

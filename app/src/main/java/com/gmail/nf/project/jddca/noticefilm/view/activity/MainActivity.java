@@ -6,8 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
-import com.gmail.nf.project.jddca.noticefilm.view.base.SingleFragmentActivity;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl;
 
 import lombok.experimental.PackagePrivate;
 
@@ -28,10 +27,10 @@ public class MainActivity extends SingleFragmentActivity{
 //        transaction.commit();
 
 
-    /**Метод устанавливает начальный фрагмент {@link GenerateFragment}*/
+    /**Метод устанавливает начальный фрагмент {@link GenerateFragmentImpl}*/
     @Override
     protected Fragment createFragment() {
-        return new GenerateFragment();
+        return new GenerateFragmentImpl();
     }
 
     /**@see SingleFragmentActivity#createButtonNavigationFragment()*/

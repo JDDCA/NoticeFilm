@@ -3,12 +3,10 @@ package com.gmail.nf.project.jddca.noticefilm.model.pojos;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.GenerateFragment;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

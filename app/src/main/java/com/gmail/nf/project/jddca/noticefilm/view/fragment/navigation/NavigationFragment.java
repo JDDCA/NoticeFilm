@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.view.fragment;
+package com.gmail.nf.project.jddca.noticefilm.view.fragment.navigation;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

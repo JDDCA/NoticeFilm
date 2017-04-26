@@ -10,7 +10,7 @@ import com.firebase.ui.auth.ResultCodes;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.MainActivity;
-import com.gmail.nf.project.jddca.noticefilm.view.contract.LoginFragmentContract;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.login.LoginFragment;
 
 
 import static com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService.RC_SIGN_IN;
@@ -20,13 +20,13 @@ import static com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService.
 public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresenter {
 
 
-    private LoginFragmentContract contract;
+    private LoginFragment contract;
     private FirebaseService firebaseService;
 
     private String token;
 
 
-    public LoginPresenterImpl(@NonNull LoginFragmentContract contract) {
+    public LoginPresenterImpl(@NonNull LoginFragment contract) {
         this.contract = contract;
         firebaseService = new FirebaseService();
     }
