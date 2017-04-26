@@ -51,13 +51,13 @@ public class GenerateFragmentImpl extends Fragment implements MovieViewGenerate 
     private Unbinder unbinder;
 
     @BindView(R.id.generate_btn)
-    Button button;
+    FloatingActionButton button;
     @BindView(R.id.movie_title)
     TextView title;
     @BindView(R.id.movie_year_realese)
     TextView year;
-    @BindView(R.id.fab_to_favorites)
-    FloatingActionButton fabToFavorites;
+//    @BindView(R.id.fab_to_favorites)
+//    FloatingActionButton fabToFavorites;
     @BindView(R.id.include)
     CardView cardView;
     @BindView(R.id.movie_img)
