@@ -6,7 +6,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="320dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <ImageView
@@ -14,7 +16,6 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginEnd="8dp"
-            app:srcCompat="@drawable/cinema_wallpaper"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
@@ -24,107 +25,77 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cinema_wallpaper"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"
-            app:layout_constraintHorizontal_bias="1.0" />
+            tools:layout_constraintRight_creator="1" />
 
         <TextView
             android:id="@+id/movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-condensed"
             android:lineSpacingExtra="8sp"
             android:textAllCaps="false"
-            android:textColor="@color/icons"
-            tools:text="@string/app_name"
-            android:background="@color/primary_text"
+            android:textColor="@color/primary_text"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/movie_img"
-            app:layout_constraintTop_toTopOf="@+id/movie_img"
-            app:layout_constraintVertical_bias="0.612"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintTop_creator="1"
-            app:layout_constraintRight_toRightOf="@+id/movie_img"
             app:layout_constraintLeft_toLeftOf="@+id/movie_img"
-            android:layout_marginTop="8dp" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_img"
+            tools:text="@string/title_film" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_to_favorites"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:clickable="true"
             app:elevation="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/movie_description"
-            app:layout_constraintHorizontal_bias="0.84"
-            app:layout_constraintLeft_toRightOf="@+id/movie_year_realese"
-            app:layout_constraintRight_toRightOf="@+id/movie_img"
-            app:layout_constraintTop_toBottomOf="@+id/movie_year_realese"
-            app:layout_constraintVertical_bias="0.56"
-            app:srcCompat="@drawable/ic_star_rate_white_18dp" />
-
-        <TextView
-            android:id="@+id/movie_description"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="32dp"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/primary_text"
-            tools:text="@string/app_name"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintLeft_toRightOf="@+id/movie_title"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/movie_img"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_constraintRight_creator="1"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            tools:layout_constraintLeft_creator="1" />
+            app:layout_constraintTop_toTopOf="@+id/movie_img"
+            app:layout_constraintVertical_bias="0.69"
+            app:srcCompat="@drawable/ic_star_rate_white_18dp"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintRight_creator="1" />
 
         <TextView
             android:id="@+id/movie_year_realese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-thin"
-            android:textColor="@color/icons"
-            android:background="@color/primary_text"
-            tools:text="@string/app_name"
+            android:textColor="@color/primary_text"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="@+id/movie_title"
-            app:layout_constraintRight_toRightOf="@+id/movie_title"
             app:layout_constraintTop_toBottomOf="@+id/movie_title"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintLeft_creator="1" />
+            tools:text="@string/year_film" />
 
-        <TextView
-            android:id="@+id/original_title"
+        <ImageButton
+            android:id="@+id/more_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_info_24dp"
+            app:layout_constraintLeft_toLeftOf="@+id/movie_year_realese"
+            app:layout_constraintTop_toBottomOf="@+id/movie_year_realese" />
+
+        <ImageButton
+            android:id="@+id/remind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/icons"
-            android:background="@color/primary_text"
-            tools:text="@string/app_name"
-            android:textSize="12sp"
-            android:textStyle="italic"
-            android:typeface="normal"
-            app:layout_constraintBottom_toTopOf="@+id/movie_title"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintLeft_toLeftOf="@+id/movie_img"
-            app:layout_constraintRight_toRightOf="@+id/movie_img" />
+            android:layout_marginTop="0dp"
+            android:background="@drawable/ic_calendar_24dp"
+            app:layout_constraintRight_toRightOf="@+id/fab_to_favorites"
+            app:layout_constraintTop_toTopOf="@+id/more_info" />
+
 
     </android.support.constraint.ConstraintLayout>
 

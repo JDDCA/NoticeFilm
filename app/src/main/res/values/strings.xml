@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">NoticeFilm</string>
+    <string name="title_film">Title Film</string>
+    <string name="year_film">year</string>
     <string name="error">Error</string>
     <string name="dialog_network_error">Check your Internet</string>
     <string name="dialog_cancel_error">You canceled auth</string>

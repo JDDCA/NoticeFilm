@@ -54,10 +54,6 @@ public class GenerateFragmentImpl extends Fragment implements MovieViewGenerate 
     Button button;
     @BindView(R.id.movie_title)
     TextView title;
-    @BindView(R.id.original_title)
-    TextView originalTitle;
-    @BindView(R.id.movie_description)
-    TextView description;
     @BindView(R.id.movie_year_realese)
     TextView year;
     @BindView(R.id.fab_to_favorites)
@@ -178,9 +174,9 @@ public class GenerateFragmentImpl extends Fragment implements MovieViewGenerate 
                     .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
                     .into(poster);
         }
-        originalTitle.setText(film.getOriginalTitle());
+//        originalTitle.setText(film.getOriginalTitle());
         title.setText(film.getTitle());
-        description.setText(film.getOverview());
+//        description.setText(film.getOverview());
         year.setText(film.getReleaseDate().substring(0, 4));
         getHost(constraintLayout, layout);
     }
