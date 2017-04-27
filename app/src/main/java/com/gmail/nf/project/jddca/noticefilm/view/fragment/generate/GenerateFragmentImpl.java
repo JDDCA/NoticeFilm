@@ -4,199 +4,122 @@ package com.gmail.nf.project.jddca.noticefilm.view.fragment.generate;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
-import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genre;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
-import com.gmail.nf.project.jddca.noticefilm.presenter.GeneratePresenter;
-import com.gmail.nf.project.jddca.noticefilm.view.MovieViewGenerate;
+import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenterImpl;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
+import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenter;
 import com.jaredrummler.materialspinner.MaterialSpinner;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.Observable;
 import lombok.experimental.PackagePrivate;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 @PackagePrivate
-public class GenerateFragmentImpl extends Fragment implements MovieViewGenerate {
+public class GenerateFragmentImpl extends ContextFragmentImpl implements GenerateFragment {
 
     private final String TAG = getClass().getSimpleName();
-    public static final String SPINNER_LIST = "com.gmail.nf.project.jddca.noticefilm.view.fragment.SPINNER_LIST ";
-    public static final String FILM = "com.gmail.nf.project.jddca.noticefilm.view.fragment.FILM";
 
-    // ButterKnife биндер для управения привязками к view-элементам
     private Unbinder unbinder;
+    private GeneratePresenter presenter;
 
-    @BindView(R.id.generate_btn)
-    FloatingActionButton button;
-    @BindView(R.id.movie_title)
-    TextView title;
-    @BindView(R.id.movie_year_realese)
-    TextView year;
-//    @BindView(R.id.fab_to_favorites)
-//    FloatingActionButton fabToFavorites;
-    @BindView(R.id.include)
-    CardView cardView;
-    @BindView(R.id.movie_img)
-    ImageView poster;
-    @BindView(R.id.spinner)
-    MaterialSpinner materialSpinner;
+    @BindView(R.id.includeProgressBar)
+    LinearLayout progressBarLayout;
+    @BindView(R.id.default_container)
+    ConstraintLayout defaultLayout;
     @BindView(R.id.spin_kit)
     ProgressBar progressBar;
-    @BindView(R.id.includeProgressBar)
-    LinearLayout layout;
-    @BindView(R.id.container)
-    ConstraintLayout constraintLayout;
-
-    private GeneratePresenter presenter;
-    private ArrayList<Genre> genres;
-    private Film film;
-    private boolean saved;
-
-
-    public GenerateFragmentImpl() {
-        // Required empty public constructor
-        if (genres == null) {
-            genres = new ArrayList<>();
-            genres.add(new Genre(RetrofitService.RANDOM_FILM, "Random"));
-        }
-    }
+    @BindView(R.id.spinner)
+    MaterialSpinner materialSpinner;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new GeneratePresenter(this);
-        presenter.setGenerateFragmentImpl(this);
+        Log.i(TAG, "onCreate: ");
         if (savedInstanceState != null) {
-            if (savedInstanceState.getParcelableArrayList(SPINNER_LIST) != null)
-                this.genres = savedInstanceState.getParcelableArrayList(SPINNER_LIST);
-            if (savedInstanceState.getParcelable(FILM) != null)
-                this.film = savedInstanceState.getParcelable(FILM);
-            saved = true;
-        } else {
-            saved = false;
-            presenter.initSpinner();
-            presenter.adviceFilm(genres.get(0));
+            presenter = savedInstanceState.getParcelable(GeneratePresenterImpl.PARCELABLE_GENERATE_PRESENTER);
+            presenter.onCreate();
+        }else {
+            presenter = new GeneratePresenterImpl(this);
+            presenter.onCreate();
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.generate_fragment, container, false);
+        Log.i(TAG, "onCreateView: ");
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
-        if (saved) {
-            materialSpinner.setItems(toStringList(genres));
-            // TODO: 20.04.2017  Fix java.lang.IllegalArgumentException: At least one dimension has to be positive number in setFilmCard(film) as poster.getMeasuredWidth() == 0 && poster.getMeasuredHeight() == 0
-            setFilmCard(film, saved);
-        }
-        button.setOnClickListener(v -> {
-            presenter.adviceFilm(genres.get(materialSpinner.getSelectedIndex()));
-            getProgressBar(constraintLayout, layout);
-        });
+        materialSpinner.setItems(presenter.loadGenres());
         return view;
     }
 
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        presenter = null;
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(GeneratePresenterImpl.PARCELABLE_GENERATE_PRESENTER, presenter);
     }
 
     @Override
-    public void showMovie(Film film) {
-        Log.i(TAG, "showMovie: " + film.toString());
-        this.film = film;
-        setFilmCard(film, saved);
+    public void showFilm(Film film) {
+
     }
 
     @Override
     public void showError(Throwable throwable) {
-        getHost(constraintLayout, layout);
-        if (throwable.getMessage().startsWith(RetrofitService.UNKNOW_HOST_EXEPTION))
-            DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
-                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
-        if (throwable.getMessage().startsWith(RetrofitService.BAD_REQUEST))
-            DialogFactory.newInstance(R.string.error, R.string.dialog_unknown_error)
-                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+
     }
 
     @Override
-    public void addGenre(List<Genre> list) {
-        genres.addAll(list);
-        materialSpinner.setItems(toStringList(genres));
+    public void toLog(String s) {
+        Log.i(TAG, "toLog: " + s);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (genres != null)
-            outState.putParcelableArrayList(SPINNER_LIST, genres);
-        if (film != null)
-            outState.putParcelable(FILM, film);
+    public void updateGenres(List<String> stringList) {
+        Log.i(TAG, "updateGenres: ");
+        if (materialSpinner != null)
+            materialSpinner.setItems(stringList);
     }
 
-    private void setFilmCard(Film film, boolean saved) {
-        if (!saved) {
-            Picasso.with(getContext())
-                    .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
-                    .centerCrop()
-                    .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
-                    .into(poster);
-        } else {
-            Picasso.with(getContext())
-                    .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
-                    .into(poster);
-        }
-//        originalTitle.setText(film.getOriginalTitle());
-        title.setText(film.getTitle());
-//        description.setText(film.getOverview());
-        year.setText(film.getReleaseDate().substring(0, 4));
-        getHost(constraintLayout, layout);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
-    private List<String> toStringList(List<Genre> genres) {
-        List<String> strings = new ArrayList<>();
-        Observable.fromIterable(genres)
-                .map(Genre::getName)
-                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1, s.length()))
-                .subscribe(strings::add);
-        return strings;
+    @Override
+    public Fragment getFrgmnt() {
+        return this;
     }
 
-    private void getProgressBar(ConstraintLayout constraintLayout, LinearLayout linearLayout) {
-        constraintLayout.setVisibility(View.GONE);
-        linearLayout.setVisibility(View.VISIBLE);
+    @Override
+    public View getProgressBarView() {
+        return progressBarLayout;
     }
 
-    private void getHost(ConstraintLayout constraintLayout, LinearLayout linearLayout) {
-        constraintLayout.setVisibility(View.VISIBLE);
-        linearLayout.setVisibility(View.GONE);
+    @Override
+    public View getDefaultView() {
+        return defaultLayout;
     }
+
 }
