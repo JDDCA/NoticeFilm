@@ -19,5 +19,5 @@ public interface GenerateMovieService {
     Observable <PageMovieForGenre> getPages (@Path("genre_id") String genreId, @Query("api_key") String key, @Query("language") String language);
 
     @GET ("genre/{genre_id}/movies")
-    Observable <PageMovieForGenre> getPage (@Path("genre_id") String genreId, @Query("api_key") String key, @Query("language") String language, @Query("page") int pageInt);
+    Observable <PageMovieForGenre> getPage (@Path("genre_id") String genreId, @Query("api_key") String key, @Query("language") String language,@Query("include_adult") String adult, @Query("page") int pageInt);
 }

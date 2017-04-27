@@ -10,4 +10,5 @@ public interface BasePresenter {
     void onCreate();
     void onStop();
     void onSave (@Nullable Parcelable value);
+    void onCreatedView ();
 }

@@ -34,9 +34,9 @@ public class GenerateMovieServiceImpl implements GenerateMovieService{
 
     @Override
     public Observable<PageMovieForGenre> getPage(@Path("genre_id") String genreId, @Query("api_key") String key,
-                                                 @Query("language") String language, @Query("page") int pageInt) {
+                                                 @Query("language") String language,@Query("include_adult") String adult ,@Query("page") int pageInt) {
         GenerateMovieService service = retrofit.create(GenerateMovieService.class);
-        return service.getPage(genreId, key, language, pageInt);
+        return service.getPage(genreId, key, language, adult, pageInt);
     }
 
 }

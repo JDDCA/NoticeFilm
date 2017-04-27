@@ -22,8 +22,6 @@ public class GeneratePresenter implements Presenter {
 
     private MovieView view;
     private GenerateMovieService service;
-
-    @Setter
     private GenerateFragmentImpl generateFragmentImpl;
 
     public GeneratePresenter(MovieView view) {
@@ -44,7 +42,7 @@ public class GeneratePresenter implements Presenter {
                                 .subscribe(
                                         pages -> service.getPage(Integer.toString(genre.getId()),
                                                 ApiService.getApiKey(generateFragmentImpl.getContext()),
-                                                ApiService.getLocales(generateFragmentImpl.getContext()),
+                                                ApiService.getLocales(generateFragmentImpl.getContext()),RetrofitService.INCLUDE_ABULT,
                                                 new Random().nextInt(pages.getTotalPages()))
                                                 .take(1)
                                                 .map(pageMovieForGenre -> pageMovieForGenre.getResults()
@@ -72,7 +70,7 @@ public class GeneratePresenter implements Presenter {
                 .subscribe(
                         genre -> service.getPages(Integer.toString(genre.getId()), key, lang).take(1)
                                 .subscribe(
-                                        pages -> service.getPage(Integer.toString(genre.getId()), key, lang,
+                                        pages -> service.getPage(Integer.toString(genre.getId()), key, lang,RetrofitService.INCLUDE_ABULT,
                                                 new Random().nextInt(pages.getTotalPages())).take(1)
                                                 .map(pageMovieForGenre -> pageMovieForGenre.getResults()
                                                         .get(new Random().nextInt(pageMovieForGenre.getResults().size())))
@@ -89,7 +87,7 @@ public class GeneratePresenter implements Presenter {
                 .subscribe(
                         pages -> service.getPage(Integer.toString(id),
                                 ApiService.getApiKey(generateFragmentImpl.getContext()),
-                                ApiService.getLocales(generateFragmentImpl.getContext()),
+                                ApiService.getLocales(generateFragmentImpl.getContext()),RetrofitService.INCLUDE_ABULT,
                                 new Random().nextInt(pages.getTotalPages())).take(1)
                                 .map(pageMovieForGenre -> pageMovieForGenre.getResults()
                                         .get(new Random().nextInt(pageMovieForGenre.getResults().size())))

@@ -27,4 +27,9 @@ public class BasePresenterImpl implements BasePresenter{
         /*NOP*/
         throw new UnsupportedOperationException("onStop was not implemented");
     }
+
+    @Override
+    public void onCreatedView() {
+        throw new UnsupportedOperationException("onStop was not implemented");
+    }
 }
