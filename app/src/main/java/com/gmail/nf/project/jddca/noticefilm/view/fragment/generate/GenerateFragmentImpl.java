@@ -103,7 +103,7 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
 
     @Override
     public void showFilm(Film film) {
-        Log.i(TAG, "showFilm: "+film.toString());
+        Log.i(TAG, "showFilm: " + film.toString());
         title.setText(film.getTitle());
         if (film.getReleaseDate() != null)
             year.setText(film.getReleaseDate().substring(0, 4));
@@ -111,9 +111,12 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                 .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
 //                .centerCrop()
 //                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
-                .into(poster,new Callback() {
+                .into(poster, new Callback() {
                     @Override
-                    public void onSuccess() {presenter.onStop();}
+                    public void onSuccess() {
+                        presenter.onStop();
+                    }
+
                     @Override
                     public void onError() {
                         Picasso.with(getContext())
@@ -122,11 +125,17 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                                 .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
                                 .into(poster, new Callback() {
                                     @Override
-                                    public void onSuccess() {presenter.onStop();}
+                                    public void onSuccess() {
+                                        presenter.onStop();
+                                    }
+
                                     @Override
                                     public void onError() {
                                         showError(new IllegalAccessException("I can't loading default poster! Check me, please!"));
-                                    }});}});
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override

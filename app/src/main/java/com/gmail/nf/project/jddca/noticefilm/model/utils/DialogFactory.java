@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 
@@ -16,7 +17,8 @@ public class DialogFactory extends DialogFragment {
     private static final String DIALOG_TITLE = "dialog_title";
     private static final String DIALOG_MESSAGE = "dialog_message";
     public static final String DIALOG_ERROR = "dialog_error";
-
+    private static final int DEFAULT_INT = 0;
+    private static final String DEFAULT_TITLE = "Error";
 
     public static DialogFragment newInstance(int title) {
         DialogFragment fragment = new DialogFactory();
@@ -37,6 +39,7 @@ public class DialogFactory extends DialogFragment {
         Bundle args = new Bundle();
         args.putInt(DIALOG_TITLE, title);
         args.putInt(DIALOG_MESSAGE, message);
+        fragment.setCancelable(false);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,8 +47,25 @@ public class DialogFactory extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        int title = getArguments().getInt(DIALOG_TITLE);
-        int message = getArguments().getInt(DIALOG_MESSAGE);
+        int title = getArguments().getInt(DIALOG_TITLE, DEFAULT_INT);
+        int message = getArguments().getInt(DIALOG_MESSAGE, DEFAULT_INT);
+        if (title != DEFAULT_INT && message != DEFAULT_INT) {
+            if (title == R.string.error && message == R.string.dialog_network_error)
+                return new AlertDialog.Builder(getActivity())
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(R.string.ok, ((dialog, which) -> {
+                            if (which<0){
+                                if (!ApiService.isNetwork(getContext())) {
+                                    DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
+                                            .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+                                }else {
+                                    dialog.dismiss();
+                                }
+                            }
+                        }))
+                        .create();
+        }
         return new AlertDialog.Builder(getActivity())
                 .setTitle(title)
                 .setMessage(message)

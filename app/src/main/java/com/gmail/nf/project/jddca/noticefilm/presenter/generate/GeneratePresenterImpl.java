@@ -42,9 +42,13 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     @Override
     public void onCreate() {
         showProgressBar();
-        if (genres == null)
-            initGenres();
-        downloadFilm(RetrofitService.FIRST);
+        if (!checkNetwork(f.getCntxt())) {
+            f.showError(new NetworkErrorException("I have not internet connection"));
+        } else {
+            if (genres == null)
+                initGenres();
+            downloadFilm(RetrofitService.FIRST);
+        }
     }
 
 
