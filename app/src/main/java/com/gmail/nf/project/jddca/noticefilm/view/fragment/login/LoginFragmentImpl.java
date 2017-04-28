@@ -28,7 +28,7 @@ import butterknife.Unbinder;
  * @see LoginFragment
  */
 
-public class LoginFragmentImplImpl extends ContextFragmentImpl implements LoginFragment {
+public class LoginFragmentImpl extends ContextFragmentImpl implements LoginFragment {
 
     private LoginPresenter presenter;
 

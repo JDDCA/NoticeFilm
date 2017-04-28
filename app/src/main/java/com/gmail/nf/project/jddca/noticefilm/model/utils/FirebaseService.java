@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Yaroslav Lutsenko on 12.04.2017.
@@ -70,8 +71,8 @@ public class FirebaseService {
     public Intent getGoogleIntent() {
         return AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(false)
-                .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
+                .setIsSmartLockEnabled(true)
+                .setProviders(Collections.singletonList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                 .build();
     }
 

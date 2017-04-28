@@ -52,12 +52,15 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-auth:' + firebaseUILibVersion
     compile 'com.firebaseui:firebase-ui-database:' + firebaseUILibVersion
 
+
     //Firebase
     compile 'com.google.firebase:firebase-core:' + firebaseLib
 
     // Android support
     compile 'com.android.support:appcompat-v7:' + androidSupportLibVersion
     compile 'com.android.support:support-v4:' + androidSupportLibVersion
+    compile 'com.google.android.gms:play-services-auth:' + firebaseLib
+
 
     //Lombok
     provided 'org.projectlombok:lombok:' + lombokLib
