@@ -70,7 +70,7 @@ public class FirebaseService {
     public Intent getGoogleIntent() {
         return AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(true)
+                .setIsSmartLockEnabled(false)
                 .setProviders(Arrays.asList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                 .build();
     }
