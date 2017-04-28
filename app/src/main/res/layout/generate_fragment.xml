@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl">
+    tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment2Impl">
 
     <include
         layout="@layout/progress_bar"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl"
+        tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment2Impl"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp">
 

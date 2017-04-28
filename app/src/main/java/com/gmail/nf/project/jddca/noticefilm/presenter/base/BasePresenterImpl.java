@@ -21,15 +21,4 @@ public class BasePresenterImpl implements BasePresenter{
         throw new UnsupportedOperationException("onStop was not implemented");
 
     }
-
-    @Override
-    public void onSave(@Nullable Parcelable value) {
-        /*NOP*/
-        throw new UnsupportedOperationException("onStop was not implemented");
-    }
-
-    @Override
-    public void onCreatedView() {
-        throw new UnsupportedOperationException("onStop was not implemented");
-    }
 }

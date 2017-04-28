@@ -1,6 +1,7 @@
 package com.gmail.nf.project.jddca.noticefilm.view.fragment.generate;
 
 
+import android.accounts.NetworkErrorException;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -20,9 +21,9 @@ import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
+import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
-import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenter;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -32,12 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import lombok.experimental.PackagePrivate;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-@PackagePrivate
 public class GenerateFragmentImpl extends ContextFragmentImpl implements GenerateFragment {
 
     private final String TAG = getClass().getSimpleName();
@@ -62,123 +58,32 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     @BindView(R.id.movie_year_realese)
     TextView year;
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        if (savedInstanceState != null) {
-//            presenter = savedInstanceState.getParcelable(GeneratePresenterImpl.PARCELABLE_GENERATE_PRESENTER);
-//            presenter.updateRefFragment(this);
-//            presenter.onCreate();
-//        } else {
-//            presenter = new GeneratePresenterImpl(this);
-//            presenter.onCreate();
-//        }
-
+    public GenerateFragmentImpl() {
+        this.presenter = new GeneratePresenterImpl(this);
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.generate_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        if (savedInstanceState != null) {
-            presenter = savedInstanceState.getParcelable(GeneratePresenterImpl.PARCELABLE_GENERATE_PRESENTER);
-            presenter.updateRefFragment(this);
-            presenter.onCreate();
-        } else {
-            presenter = new GeneratePresenterImpl(this);
-            presenter.onCreate();
-        }
         progressBar.setIndeterminateDrawable(new CubeGrid());
-        materialSpinner.setItems(presenter.loadGenres());
-        if (presenter.loadFilm() != null) {
-            showOldFilm(presenter.loadFilm());
-        }
         generateBtn.setOnClickListener(v -> presenter.downloadFilm(materialSpinner.getSelectedIndex()));
-        presenter.onCreatedView();
 
         return view;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(GeneratePresenterImpl.PARCELABLE_GENERATE_PRESENTER, presenter);
-    }
-
-
-    @Override
-    public void showFilm(Film film) {
-        title.setText(film.getTitle());
-        if (film.getReleaseDate() != null)
-            year.setText(film.getReleaseDate().substring(0, 4));
-        Picasso.with(getContext())
-                .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
-                .centerCrop()
-                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
-                .into(poster, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        presenter.onStop();
-                    }
-                    @Override
-                    public void onError() {
-                        Picasso.with(getContext())
-                                .load(R.drawable.lock_stock)
-                                .centerCrop()
-                                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
-                                .into(poster, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        presenter.onStop();
-                                    }
-                                    @Override
-                                    public void onError() {
-                                        presenter.onStop();
-                                    }
-                                });}});
-    }
-
-    private void showOldFilm(Film film) {
-        title.setText(film.getTitle());
-        if (film.getReleaseDate() != null)
-            year.setText(film.getReleaseDate().substring(0, 4));
-        Picasso.with(getContext())
-                .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
-                .into(poster, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        presenter.onStop();
-                    }
-                    @Override
-                    public void onError() {
-                        Picasso.with(getContext())
-                                .load(R.drawable.lock_stock)
-                                .into(poster, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        presenter.onStop();
-                                    }
-                                    @Override
-                                    public void onError() {
-                                        presenter.onStop();
-                                    }
-                                });}});
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        presenter.onCreate();
     }
 
     @Override
-    public void showError(Throwable throwable) {
-        Log.e(TAG, "showError: ", throwable);
-        presenter.onStop();
-        if (throwable.getMessage().startsWith(RetrofitService.UNKNOW_HOST_EXEPTION)||throwable.getMessage().startsWith("I have not internet "))
-            DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
-                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
-    }
-
-    @Override
-    public void toLog(String s) {
-        Log.i(TAG, "toLog: " + s);
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        presenter = null;
     }
 
     @Override
@@ -188,10 +93,45 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        presenter = null;
+    public void showError(Throwable throwable) {
+        presenter.onStop();
+        Log.e(TAG, "showError: ", throwable);
+        if (throwable instanceof NetworkErrorException)
+            DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
+                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+    }
+
+    @Override
+    public void showFilm(Film film) {
+        Log.i(TAG, "showFilm: "+film.toString());
+        title.setText(film.getTitle());
+        if (film.getReleaseDate() != null)
+            year.setText(film.getReleaseDate().substring(0, 4));
+        Picasso.with(getContext())
+                .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
+//                .centerCrop()
+//                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
+                .into(poster,new Callback() {
+                    @Override
+                    public void onSuccess() {presenter.onStop();}
+                    @Override
+                    public void onError() {
+                        Picasso.with(getContext())
+                                .load(R.drawable.lock_stock)
+                                .centerCrop()
+                                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
+                                .into(poster, new Callback() {
+                                    @Override
+                                    public void onSuccess() {presenter.onStop();}
+                                    @Override
+                                    public void onError() {
+                                        showError(new IllegalAccessException("I can't loading default poster! Check me, please!"));
+                                    }});}});
+    }
+
+    @Override
+    public void toLog(String s) {
+        Log.i(TAG, "toLog: " + s);
     }
 
     @Override

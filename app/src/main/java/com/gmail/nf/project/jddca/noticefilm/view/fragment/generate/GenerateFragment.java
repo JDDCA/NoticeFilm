@@ -1,8 +1,6 @@
 package com.gmail.nf.project.jddca.noticefilm.view.fragment.generate;
 
 
-import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
 
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
@@ -10,7 +8,7 @@ import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragme
 
 import java.util.List;
 
-public interface GenerateFragment extends ContextFragment {
+public interface GenerateFragment extends ContextFragment{
 
     View getProgressBarView ();
     View getDefaultView ();
