@@ -6,4 +6,6 @@ import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenter;
 public interface GeneratePresenter extends BasePresenter {
 
     void downloadFilm(int selectedIndex);
+    void movieToFav();
+    void movieToList();
 }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -20,9 +21,11 @@ import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenterImpl;
+import com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Callback;
@@ -57,6 +60,11 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     TextView title;
     @BindView(R.id.movie_year_realese)
     TextView year;
+    @BindView(R.id.add_fav)
+    ImageButton addFav;
+    @BindView(R.id.add_list)
+    ImageButton addList;
+
 
     public GenerateFragmentImpl() {
         this.presenter = new GeneratePresenterImpl(this);
@@ -69,7 +77,8 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
         generateBtn.setOnClickListener(v -> presenter.downloadFilm(materialSpinner.getSelectedIndex()));
-
+        addFav.setOnClickListener(v -> presenter.movieToFav());
+        addList.setOnClickListener(v -> presenter.movieToList());
         return view;
     }
 
@@ -90,6 +99,12 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     public void updateGenres(List<String> stringList) {
         if (materialSpinner != null)
             materialSpinner.setItems(stringList);
+    }
+
+    @Override
+    public void showAuthDialog() {
+        DialogFactory.newInstance(R.string.info,R.string.auth_dialog)
+                .show(getFragmentManager(),DialogFactory.DIALOG_ERROR);
     }
 
     @Override

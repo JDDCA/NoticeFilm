@@ -16,5 +16,6 @@ public interface GenerateFragment extends ContextFragment{
     void showFilm (Film film);
     void toLog (String s);
     void updateGenres(List<String> stringList);
+    void showAuthDialog ();
 
 }

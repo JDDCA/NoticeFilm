@@ -35,11 +35,14 @@ public class DialogFactory extends DialogFragment {
      * @param message id сообщения
      */
     public static DialogFragment newInstance(int title, int message) {
+        boolean cancelable = true;
+        if (title != DEFAULT_INT && message != DEFAULT_INT)
+            cancelable = false;
         DialogFragment fragment = new DialogFactory();
         Bundle args = new Bundle();
         args.putInt(DIALOG_TITLE, title);
         args.putInt(DIALOG_MESSAGE, message);
-        fragment.setCancelable(false);
+        fragment.setCancelable(cancelable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,15 +58,22 @@ public class DialogFactory extends DialogFragment {
                         .setTitle(title)
                         .setMessage(message)
                         .setPositiveButton(R.string.ok, ((dialog, which) -> {
-                            if (which<0){
+                            if (which < 0) {
                                 if (!ApiService.isNetwork(getContext())) {
                                     DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
                                             .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
-                                }else {
+                                } else {
                                     dialog.dismiss();
-                                }
-                            }
-                        }))
+                                }}}))
+                        .create();
+            if (title == R.string.info && message == R.string.auth_dialog)
+                return new AlertDialog.Builder(getActivity())
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(R.string.yes_do_it, (dialog, which) -> {
+                            FirebaseService.logoutAnonymously(getActivity());
+                        })
+                        .setNegativeButton(R.string.not_do_it, null)
                         .create();
         }
         return new AlertDialog.Builder(getActivity())

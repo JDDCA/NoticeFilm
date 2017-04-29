@@ -14,6 +14,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
+import com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment;
 
 import java.util.ArrayList;
@@ -41,6 +42,10 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
 
     @Override
     public void onCreate() {
+//        if (!FirebaseService.checkSession()) {
+//            f.startActvt(LoginActivity.createIntent(f.getActvt()));
+//            f.getActvt().finish();
+//        }
         showProgressBar();
         if (!checkNetwork(f.getCntxt())) {
             f.showError(new NetworkErrorException("I have not internet connection"));
@@ -64,6 +69,16 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
                 downloadRandomFilm();
             }
         }
+    }
+
+    @Override
+    public void movieToFav() {
+        checkAuthUser();
+    }
+
+    @Override
+    public void movieToList() {
+        checkAuthUser();
     }
 
     private void downloadGenreFilm(int selectedIndex) {
@@ -185,6 +200,11 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
         return ApiService.isNetwork(context);
     }
 
+    private void checkAuthUser (){
+        if (FirebaseService.isAnonymousUser())
+            f.showAuthDialog();
+    }
+
     private void hideProgressBar() {
         f.getProgressBarView().setVisibility(View.GONE);
         f.getDefaultView().setVisibility(View.VISIBLE);
@@ -194,6 +214,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
         f.getProgressBarView().setVisibility(View.VISIBLE);
         f.getDefaultView().setVisibility(View.GONE);
     }
+
 
 
 }
