@@ -11,6 +11,8 @@ import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genres;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieService;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService.NotAuthorizedException;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
@@ -26,24 +28,28 @@ import io.reactivex.schedulers.Schedulers;
 
 public class GeneratePresenterImpl extends BasePresenterImpl implements GeneratePresenter {
 
-    private GenerateFragment f;
-    private FirebaseService fs;
-    private GenerateMovieService gms;
+    private GenerateFragment generateFragment;
+    private FirebaseService firebaseService;
+    private GenerateMovieService generateMovieService;
     private List<Genre> genres;
     private Film film;
 
     public GeneratePresenterImpl(GenerateFragment fragment) {
-        this.f = fragment;
-        gms = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
-        fs = new FirebaseService();
+        this.generateFragment = fragment;
+        generateMovieService = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
+        firebaseService = new FirebaseService();
     }
 
 
     @Override
     public void onCreate() {
+//        if (!FirebaseService.checkSession()) {
+//            generateFragment.startActvt(LoginActivity.createIntent(generateFragment.getActvt()));
+//            generateFragment.getActvt().finish();
+//        }
         showProgressBar();
-        if (!checkNetwork(f.getCntxt())) {
-            f.showError(new NetworkErrorException("I have not internet connection"));
+        if (!checkNetwork(generateFragment.getCntxt())) {
+            generateFragment.showError(new NetworkErrorException("I have not internet connection"));
         } else {
             if (genres == null)
                 initGenres();
@@ -55,8 +61,8 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     @Override
     public void downloadFilm(int selectedIndex) {
         showProgressBar();
-        if (!checkNetwork(f.getCntxt())) {
-            f.showError(new NetworkErrorException("I have not internet connection"));
+        if (!checkNetwork(generateFragment.getCntxt())) {
+            generateFragment.showError(new NetworkErrorException("I have not internet connection"));
         } else {
             if (selectedIndex != RetrofitService.FIRST) {
                 downloadGenreFilm(selectedIndex);
@@ -66,20 +72,38 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
         }
     }
 
+    @Override
+    public void movieToFav() {
+        if (!FirebaseService.isAnonymousUser()){
+
+        }else {
+            generateFragment.showError(new NotAuthorizedException());
+        }
+    }
+
+    @Override
+    public void movieToList() {
+        if (!FirebaseService.isAnonymousUser()){
+
+        }else {
+            generateFragment.showError(new NotAuthorizedException());
+        }
+    }
+
     private void downloadGenreFilm(int selectedIndex) {
-        String key = ApiService.getApiKey(f.getCntxt());
-        String locale = ApiService.getLocales(f.getCntxt());
+        String key = ApiService.getApiKey(generateFragment.getCntxt());
+        String locale = ApiService.getLocales(generateFragment.getCntxt());
         String id = Integer.toString(RetrofitService.RANDOM_FILM);
         if (genres != null)
             id = Integer.toString(genres.get(selectedIndex).getId());
         String finalId = id;
-//        f.toLog("Genre id: " + id);
-//        f.toLog("FinalId id: " + id);
-        gms.getPages(finalId, key, locale)
+//        generateFragment.toLog("Genre id: " + id);
+//        generateFragment.toLog("FinalId id: " + id);
+        generateMovieService.getPages(finalId, key, locale)
                 .subscribeOn(Schedulers.io())
                 .take(1)
                 .subscribe(pMFG -> {
-//                    f.toLog(Integer.toString(pMFG.getTotalPages()));
+//                    generateFragment.toLog(Integer.toString(pMFG.getTotalPages()));
                     Random r = new Random(System.currentTimeMillis());
                     int page = 1;
                     if (pMFG.getTotalPages() > RetrofitService.MAX_PAGES) {
@@ -87,36 +111,36 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
                     } else {
                         page = r.nextInt(pMFG.getTotalPages()) + 1;
                     }
-                    gms.getPage(finalId, key, locale, RetrofitService.INCLUDE_ABULT, page)
+                    generateMovieService.getPage(finalId, key, locale, RetrofitService.INCLUDE_ABULT, page)
                             .take(1)
                             .map(pageMovieForGenre -> pageMovieForGenre.getResults()
                                     .get(new Random(System.currentTimeMillis()).nextInt(pageMovieForGenre.getResults().size())))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     film_r -> {
-//                                        f.toLog(film_r.toString());
+//                                        generateFragment.toLog(film_r.toString());
                                         this.film = film_r;
-                                        f.showFilm(film_r);
-                                    } , t -> f.showError(t));
-                }, t -> f.showError(t));
+                                        generateFragment.showFilm(film_r);
+                                    } , t -> generateFragment.showError(t));
+                }, t -> generateFragment.showError(t));
     }
 
     private void downloadRandomFilm() {
-//        f.toLog("downloadRandomFilm");
-        String key = ApiService.getApiKey(f.getCntxt());
-        String locale = ApiService.getLocales(f.getCntxt());
-        gms.getGenres(key, locale)
+//        generateFragment.toLog("downloadRandomFilm");
+        String key = ApiService.getApiKey(generateFragment.getCntxt());
+        String locale = ApiService.getLocales(generateFragment.getCntxt());
+        generateMovieService.getGenres(key, locale)
                 .subscribeOn(Schedulers.io())
                 .take(1)
                 .map(genres_film -> genres_film
                         .getGenres()
                         .get(new Random(System.currentTimeMillis()).nextInt(genres_film.getGenres().size())))
                 .subscribe(genre -> {
-//                    f.toLog(genre.toString());
-                    gms.getPages(Integer.toString(genre.getId()), key, locale)
+//                    generateFragment.toLog(genre.toString());
+                    generateMovieService.getPages(Integer.toString(genre.getId()), key, locale)
                             .take(1)
                             .subscribe(totalPage -> {
-//                                f.toLog("Total pages:" + Integer.toString(totalPage.getTotalPages()));
+//                                generateFragment.toLog("Total pages:" + Integer.toString(totalPage.getTotalPages()));
                                 Random r = new Random(System.currentTimeMillis());
                                 int page = 1;
                                 if (totalPage.getTotalPages() > RetrofitService.MAX_PAGES) {
@@ -124,18 +148,18 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
                                 } else {
                                     page = r.nextInt(totalPage.getTotalPages()) + 1;
                                 }
-                                gms.getPage(Integer.toString(genre.getId()), key, locale, RetrofitService.INCLUDE_ABULT, page)
+                                generateMovieService.getPage(Integer.toString(genre.getId()), key, locale, RetrofitService.INCLUDE_ABULT, page)
                                         .take(1)
                                         .map(pageMovieForGenre -> pageMovieForGenre.getResults()
                                                 .get(new Random(System.currentTimeMillis()).nextInt(pageMovieForGenre.getResults().size())))
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(film_result -> {
-//                                            f.toLog(film_result.toString());
+//                                            generateFragment.toLog(film_result.toString());
                                             this.film = film_result;
-                                            f.showFilm(film_result);
-                                        }, throwable -> f.showError(throwable));
-                            }, throwable -> f.showError(throwable));
-                }, throwable -> f.showError(throwable));
+                                            generateFragment.showFilm(film_result);
+                                        }, throwable -> generateFragment.showError(throwable));
+                            }, throwable -> generateFragment.showError(throwable));
+                }, throwable -> generateFragment.showError(throwable));
     }
 
     private void initGenres() {
@@ -145,15 +169,15 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     }
 
     private void downloadGenres() {
-        if (!checkNetwork(f.getCntxt())) {
-            f.showError(new NetworkErrorException("I have not internet connection"));
+        if (!checkNetwork(generateFragment.getCntxt())) {
+            generateFragment.showError(new NetworkErrorException("I have not internet connection"));
         }
-        gms.getGenres(ApiService.getApiKey(f.getCntxt()), ApiService.getLocales(f.getCntxt()))
+        generateMovieService.getGenres(ApiService.getApiKey(generateFragment.getCntxt()), ApiService.getLocales(generateFragment.getCntxt()))
                 .subscribeOn(Schedulers.io())
                 .take(1)
                 .map(Genres::getGenres)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::saveGenres, throwable -> f.showError(throwable));
+                .subscribe(this::saveGenres, throwable -> generateFragment.showError(throwable));
     }
 
     private void saveGenres(List<Genre> v) {
@@ -164,7 +188,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
             genres.add(new Genre(RetrofitService.FIRST, "All genres"));
             genres.addAll(v);
         }
-        f.updateGenres(toStringList(genres));
+        generateFragment.updateGenres(toStringList(genres));
     }
 
     @Override
@@ -186,14 +210,15 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     }
 
     private void hideProgressBar() {
-        f.getProgressBarView().setVisibility(View.GONE);
-        f.getDefaultView().setVisibility(View.VISIBLE);
+        generateFragment.getProgressBarView().setVisibility(View.GONE);
+        generateFragment.getDefaultView().setVisibility(View.VISIBLE);
     }
 
     private void showProgressBar() {
-        f.getProgressBarView().setVisibility(View.VISIBLE);
-        f.getDefaultView().setVisibility(View.GONE);
+        generateFragment.getProgressBarView().setVisibility(View.VISIBLE);
+        generateFragment.getDefaultView().setVisibility(View.GONE);
     }
+
 
 
 }

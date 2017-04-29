@@ -3,6 +3,7 @@ package com.gmail.nf.project.jddca.noticefilm.view.fragment.generate;
 
 import android.accounts.NetworkErrorException;
 import android.os.Bundle;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -20,14 +22,19 @@ import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService.NotAuthorizedException;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenterImpl;
+import com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.NotActiveException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,6 +64,11 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     TextView title;
     @BindView(R.id.movie_year_realese)
     TextView year;
+    @BindView(R.id.add_fav)
+    ImageButton addFav;
+    @BindView(R.id.add_list)
+    ImageButton addList;
+
 
     public GenerateFragmentImpl() {
         this.presenter = new GeneratePresenterImpl(this);
@@ -69,7 +81,8 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
         generateBtn.setOnClickListener(v -> presenter.downloadFilm(materialSpinner.getSelectedIndex()));
-
+        addFav.setOnClickListener(v -> presenter.movieToFav());
+        addList.setOnClickListener(v -> presenter.movieToList());
         return view;
     }
 
@@ -99,6 +112,9 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         if (throwable instanceof NetworkErrorException)
             DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
                     .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+        if (throwable instanceof NotAuthorizedException)
+            DialogFactory.newInstance(R.string.info,R.string.auth_dialog)
+                    .show(getFragmentManager(),DialogFactory.DIALOG_ERROR);
     }
 
     @Override
