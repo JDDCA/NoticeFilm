@@ -11,12 +11,15 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
 import com.gmail.nf.project.jddca.noticefilm.R;
+import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.MainActivity;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,6 +44,10 @@ public class FirebaseService {
 
     private static FirebaseUser getCurrentUser (){
         return getAuth().getCurrentUser();
+    }
+
+    public static DatabaseReference getDatabaseReference (){
+        return FirebaseDatabase.getInstance().getReference();
     }
 
     /**

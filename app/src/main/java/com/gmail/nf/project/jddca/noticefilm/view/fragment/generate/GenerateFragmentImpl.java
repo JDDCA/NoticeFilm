@@ -69,6 +69,8 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     @BindView(R.id.add_list)
     ImageButton addList;
 
+    private boolean isTouchAddFav = true;
+    private boolean isTouchAddList = true;
 
     public GenerateFragmentImpl() {
         this.presenter = new GeneratePresenterImpl(this);
@@ -81,8 +83,29 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
         generateBtn.setOnClickListener(v -> presenter.downloadFilm(materialSpinner.getSelectedIndex()));
-        addFav.setOnClickListener(v -> presenter.movieToFav());
-        addList.setOnClickListener(v -> presenter.movieToList());
+        addFav.setOnClickListener(v -> {
+            if (isTouchAddFav){
+                addFav.setImageResource(R.drawable.ic_favorite_black_24px);
+                presenter.movieToFav(isTouchAddFav);
+            }else {
+                addFav.setImageResource(R.drawable.ic_favorite_border_black_24px);
+                presenter.movieToFav(isTouchAddFav);
+
+            }
+            isTouchAddFav = !isTouchAddFav;
+        });
+        addList.setImageResource(R.drawable.ic_playlist_add_black_24px);
+        addList.setOnClickListener(v -> {
+            if (isTouchAddList ){
+                addList.setImageResource(R.drawable.ic_playlist_add_check_black_24px);
+                presenter.movieToList(isTouchAddList);
+            }else {
+                addList.setImageResource(R.drawable.ic_playlist_add_black_24px);
+                presenter.movieToList(isTouchAddList);
+            }
+            isTouchAddList  = !isTouchAddList;
+        });
+
         return view;
     }
 

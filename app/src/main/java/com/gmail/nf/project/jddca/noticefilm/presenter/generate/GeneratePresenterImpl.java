@@ -5,18 +5,20 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.view.View;
 
+import com.gmail.nf.project.jddca.noticefilm.model.db.Database;
+import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genre;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genres;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieService;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService.NotAuthorizedException;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ import io.reactivex.schedulers.Schedulers;
 public class GeneratePresenterImpl extends BasePresenterImpl implements GeneratePresenter {
 
     private GenerateFragment generateFragment;
-    private FirebaseService firebaseService;
+    private Database database;
     private GenerateMovieService generateMovieService;
     private List<Genre> genres;
     private Film film;
@@ -37,16 +39,12 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     public GeneratePresenterImpl(GenerateFragment fragment) {
         this.generateFragment = fragment;
         generateMovieService = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
-        firebaseService = new FirebaseService();
+        database = new DatabaseImpl();
     }
 
 
     @Override
     public void onCreate() {
-//        if (!FirebaseService.checkSession()) {
-//            generateFragment.startActvt(LoginActivity.createIntent(generateFragment.getActvt()));
-//            generateFragment.getActvt().finish();
-//        }
         showProgressBar();
         if (!checkNetwork(generateFragment.getCntxt())) {
             generateFragment.showError(new NetworkErrorException("I have not internet connection"));
@@ -73,21 +71,39 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     }
 
     @Override
-    public void movieToFav() {
-        if (!FirebaseService.isAnonymousUser()){
-
-        }else {
+    public void movieToFav(boolean b) {
+        if (!FirebaseService.isAnonymousUser()) {
+            if (film != null) {
+                if (b)
+                    database.saveToFavoritesMovie(film);
+                else
+                    database.removeFavoritesMovie(film);
+            } else
+                generateFragment.showError(new NullPointerException("Film is null. I can't save null in database"));
+        } else
             generateFragment.showError(new NotAuthorizedException());
-        }
     }
 
     @Override
-    public void movieToList() {
-        if (!FirebaseService.isAnonymousUser()){
-
-        }else {
+    public void movieToList(boolean b) {
+        if (!FirebaseService.isAnonymousUser()) {
+            if (film != null) {
+                if (b)
+                    database.saveToListMovie(film);
+                else
+                    database.removeListsMovie(film);
+            } else
+                generateFragment.showError(new NullPointerException("Film is null. I can't save null in database"));
+        } else
             generateFragment.showError(new NotAuthorizedException());
-        }
+    }
+
+    public void checkInDatabse (Film film){
+        generateFragment.toLog("checkInDatabse:");
+
+//        DatabaseReference favorites_movies = FirebaseService.getDatabaseReference().child("favorites_movies").child(Integer.toString(film.getId()));
+//        favorites_movies.addChildEventListener()
+//        database.checkInFav(film);
     }
 
     private void downloadGenreFilm(int selectedIndex) {
@@ -121,7 +137,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
 //                                        generateFragment.toLog(film_r.toString());
                                         this.film = film_r;
                                         generateFragment.showFilm(film_r);
-                                    } , t -> generateFragment.showError(t));
+                                    }, t -> generateFragment.showError(t));
                 }, t -> generateFragment.showError(t));
     }
 
@@ -156,6 +172,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
                                         .subscribe(film_result -> {
 //                                            generateFragment.toLog(film_result.toString());
                                             this.film = film_result;
+                                            checkInDatabse(film_result);
                                             generateFragment.showFilm(film_result);
                                         }, throwable -> generateFragment.showError(throwable));
                             }, throwable -> generateFragment.showError(throwable));
@@ -218,7 +235,6 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
         generateFragment.getProgressBarView().setVisibility(View.VISIBLE);
         generateFragment.getDefaultView().setVisibility(View.GONE);
     }
-
 
 
 }
