@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.navigation.NavigationFragment;
+import com.google.firebase.FirebaseApp;
 
 /**
  * Базовый класс для Activity, помогает создать хост с 1 фрагментом
@@ -33,7 +34,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_container_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
