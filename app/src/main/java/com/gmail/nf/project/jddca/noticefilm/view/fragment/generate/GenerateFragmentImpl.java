@@ -83,27 +83,28 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
         generateBtn.setOnClickListener(v -> presenter.downloadFilm(materialSpinner.getSelectedIndex()));
+        setButtonImage(addFav,isTouchAddFav,R.drawable.ic_favorite_border_black_24px,R.drawable.ic_favorite_black_24px);
         addFav.setOnClickListener(v -> {
-            if (isTouchAddFav){
+            if (isTouchAddFav) {
                 addFav.setImageResource(R.drawable.ic_favorite_black_24px);
                 presenter.movieToFav(isTouchAddFav);
-            }else {
+            } else {
                 addFav.setImageResource(R.drawable.ic_favorite_border_black_24px);
                 presenter.movieToFav(isTouchAddFav);
-
             }
             isTouchAddFav = !isTouchAddFav;
         });
-        addList.setImageResource(R.drawable.ic_playlist_add_black_24px);
+        setButtonImage(addList,isTouchAddList,R.drawable.ic_playlist_add_black_24px,R.drawable.ic_playlist_add_check_black_24px);
+//        addList.setImageResource(R.drawable.ic_playlist_add_black_24px);
         addList.setOnClickListener(v -> {
-            if (isTouchAddList ){
+            if (isTouchAddList) {
                 addList.setImageResource(R.drawable.ic_playlist_add_check_black_24px);
                 presenter.movieToList(isTouchAddList);
-            }else {
+            } else {
                 addList.setImageResource(R.drawable.ic_playlist_add_black_24px);
                 presenter.movieToList(isTouchAddList);
             }
-            isTouchAddList  = !isTouchAddList;
+            isTouchAddList = !isTouchAddList;
         });
 
         return view;
@@ -136,13 +137,25 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
             DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
                     .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
         if (throwable instanceof NotAuthorizedException)
-            DialogFactory.newInstance(R.string.info,R.string.auth_dialog)
-                    .show(getFragmentManager(),DialogFactory.DIALOG_ERROR);
+            DialogFactory.newInstance(R.string.info, R.string.auth_dialog)
+                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+    }
+
+    private void setButtonImage (ImageButton imageButton,boolean b, int first_state, int second_state){
+        imageButton.setImageResource(first_state);
+        if (b)
+            imageButton.setImageResource(second_state);
+        else
+            imageButton.setImageResource(first_state);
     }
 
     @Override
-    public void showFilm(Film film) {
-        Log.i(TAG, "showFilm: " + film.toString());
+    public void showFilm(Film film, boolean bFav, boolean bList) {
+        Log.i(TAG, "showFilm: " + "bFav: " + bFav + " bList " + bList + " film: " + film.toString());
+        isTouchAddFav = !bFav;
+        isTouchAddList = !bList;
+        setButtonImage(addList,bFav,R.drawable.ic_playlist_add_black_24px,R.drawable.ic_playlist_add_check_black_24px);
+        setButtonImage(addFav,bList,R.drawable.ic_favorite_border_black_24px,R.drawable.ic_favorite_black_24px);
         title.setText(film.getTitle());
         if (film.getReleaseDate() != null)
             year.setText(film.getReleaseDate().substring(0, 4));

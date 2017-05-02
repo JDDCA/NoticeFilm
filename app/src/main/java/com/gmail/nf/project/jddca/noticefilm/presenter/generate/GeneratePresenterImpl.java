@@ -5,8 +5,8 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.view.View;
 
-import com.gmail.nf.project.jddca.noticefilm.model.db.Database;
-import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseImpl;
+import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseService;
+import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genre;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Genres;
@@ -18,7 +18,6 @@ import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 public class GeneratePresenterImpl extends BasePresenterImpl implements GeneratePresenter {
 
     private GenerateFragment generateFragment;
-    private Database database;
+    private DatabaseService databaseService;
     private GenerateMovieService generateMovieService;
     private List<Genre> genres;
     private Film film;
@@ -39,7 +38,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     public GeneratePresenterImpl(GenerateFragment fragment) {
         this.generateFragment = fragment;
         generateMovieService = new GenerateMovieServiceImpl(RetrofitService.getRetrofit());
-        database = new DatabaseImpl();
+        databaseService = new DatabaseServiceImpl();
     }
 
 
@@ -75,11 +74,11 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
         if (!FirebaseService.isAnonymousUser()) {
             if (film != null) {
                 if (b)
-                    database.saveToFavoritesMovie(film);
+                    databaseService.saveToFavoritesMovie(film);
                 else
-                    database.removeFavoritesMovie(film);
+                    databaseService.removeFavoritesMovie(film);
             } else
-                generateFragment.showError(new NullPointerException("Film is null. I can't save null in database"));
+                generateFragment.showError(new NullPointerException("Film is null. I can't save null in databaseService"));
         } else
             generateFragment.showError(new NotAuthorizedException());
     }
@@ -89,21 +88,22 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
         if (!FirebaseService.isAnonymousUser()) {
             if (film != null) {
                 if (b)
-                    database.saveToListMovie(film);
+                    databaseService.saveToListMovie(film);
                 else
-                    database.removeListsMovie(film);
+                    databaseService.removeListsMovie(film);
             } else
-                generateFragment.showError(new NullPointerException("Film is null. I can't save null in database"));
+                generateFragment.showError(new NullPointerException("Film is null. I can't save null in databaseService"));
         } else
             generateFragment.showError(new NotAuthorizedException());
     }
 
-    public void checkInDatabse (Film film){
-        generateFragment.toLog("checkInDatabse:");
+    private void checkInDatabase(Film film){
+        // TODO: 02.05.2017 Интернет соеденение
+        databaseService.checkInFavoritesMovie(film,bFav -> databaseService.checkInListMovie(film,
+                bList -> generateFragment.showFilm(film,bFav,bList)
+                , generateFragment::showError)
+        ,generateFragment::showError);
 
-//        DatabaseReference favorites_movies = FirebaseService.getDatabaseReference().child("favorites_movies").child(Integer.toString(film.getId()));
-//        favorites_movies.addChildEventListener()
-//        database.checkInFav(film);
     }
 
     private void downloadGenreFilm(int selectedIndex) {
@@ -136,7 +136,8 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
                                     film_r -> {
 //                                        generateFragment.toLog(film_r.toString());
                                         this.film = film_r;
-                                        generateFragment.showFilm(film_r);
+                                        checkInDatabase(film);
+//                                        generateFragment.showFilm(film_r);
                                     }, t -> generateFragment.showError(t));
                 }, t -> generateFragment.showError(t));
     }
@@ -164,16 +165,20 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
                                 } else {
                                     page = r.nextInt(totalPage.getTotalPages()) + 1;
                                 }
+//                                generateFragment.toLog(page+" page");
+//                                generateFragment.toLog(genre.getId()+" genreID");
                                 generateMovieService.getPage(Integer.toString(genre.getId()), key, locale, RetrofitService.INCLUDE_ABULT, page)
+//                                generateMovieService.getPage("10751", key, locale, RetrofitService.INCLUDE_ABULT, 516)
                                         .take(1)
                                         .map(pageMovieForGenre -> pageMovieForGenre.getResults()
                                                 .get(new Random(System.currentTimeMillis()).nextInt(pageMovieForGenre.getResults().size())))
+//                                        .map(pageMovieForGenre -> pageMovieForGenre.getResults().get(1))
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(film_result -> {
 //                                            generateFragment.toLog(film_result.toString());
                                             this.film = film_result;
-                                            checkInDatabse(film_result);
-                                            generateFragment.showFilm(film_result);
+                                            checkInDatabase(film_result);
+//                                            generateFragment.showFilm(film_result);
                                         }, throwable -> generateFragment.showError(throwable));
                             }, throwable -> generateFragment.showError(throwable));
                 }, throwable -> generateFragment.showError(throwable));
