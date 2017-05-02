@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment2Impl">
+    tools:context="com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl">
 
     <include
         layout="@layout/progress_bar"

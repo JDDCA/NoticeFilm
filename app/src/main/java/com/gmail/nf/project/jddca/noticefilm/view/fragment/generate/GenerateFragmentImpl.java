@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -44,6 +45,8 @@ import butterknife.Unbinder;
 public class GenerateFragmentImpl extends ContextFragmentImpl implements GenerateFragment {
 
     private final String TAG = getClass().getSimpleName();
+    public static final String GENERATE_TAG = "generate_tag";
+
 
     private Unbinder unbinder;
     private GeneratePresenter presenter;
@@ -154,11 +157,16 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         Log.i(TAG, "showFilm: " + "bFav: " + bFav + " bList " + bList + " film: " + film.toString());
         isTouchAddFav = !bFav;
         isTouchAddList = !bList;
+        if (addFav!=null)
         setButtonImage(addList,bFav,R.drawable.ic_playlist_add_black_24px,R.drawable.ic_playlist_add_check_black_24px);
+        if (addFav!=null)
         setButtonImage(addFav,bList,R.drawable.ic_favorite_border_black_24px,R.drawable.ic_favorite_black_24px);
+        if (title!=null)
         title.setText(film.getTitle());
         if (film.getReleaseDate() != null)
+            if (year!=null)
             year.setText(film.getReleaseDate().substring(0, 4));
+        if (poster!=null)
         Picasso.with(getContext())
                 .load(RetrofitService.BASE_PATH_POSTER + film.getPosterPath())
 //                .centerCrop()
@@ -171,6 +179,7 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
 
                     @Override
                     public void onError() {
+                        if (poster!=null)
                         Picasso.with(getContext())
                                 .load(R.drawable.lock_stock)
                                 .centerCrop()

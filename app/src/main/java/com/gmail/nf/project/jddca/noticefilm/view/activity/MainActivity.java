@@ -22,16 +22,15 @@ public class MainActivity extends SingleFragmentActivity{
 
     public final String TAG = getClass().getSimpleName();
 
-//        transaction.replace(R.id.fragment_container, movieFragment);
-//        transaction.addToBackStack(null);
-//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//        transaction.commit();
-
-
     /**Метод устанавливает начальный фрагмент {@link GenerateFragmentImpl}*/
     @Override
     protected Fragment createFragment() {
         return new GenerateFragmentImpl();
+    }
+
+    @Override
+    protected String getFragmentTAG() {
+        return GenerateFragmentImpl.GENERATE_TAG;
     }
 
     /**@see SingleFragmentActivity#createButtonNavigationFragment()*/
@@ -46,13 +45,6 @@ public class MainActivity extends SingleFragmentActivity{
         checkSession();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // для дополнительной проверки авторизации пользователя?
-//        checkSession();
-    }
-
     /**Метод для проверки авторизации пользователя.*/
     private void checkSession() {
         if (!FirebaseService.checkSession()) {
@@ -60,7 +52,6 @@ public class MainActivity extends SingleFragmentActivity{
             finish();
         }
     }
-
 
     public static Intent createIntent(@NonNull Activity activity) {
         return new Intent(activity, MainActivity.class);

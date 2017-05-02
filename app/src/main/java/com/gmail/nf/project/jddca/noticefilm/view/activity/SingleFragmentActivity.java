@@ -21,6 +21,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
      */
     protected abstract Fragment createFragment();
 
+    protected abstract String getFragmentTAG ();
     /**
      * Метод для загрузки Button Navigation
      *
@@ -42,12 +43,12 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
             fragment = createFragment();
             if (!createButtonNavigationFragment()) {
                 fm.beginTransaction()
-                        .add(R.id.fragment_container, fragment)
+                        .add(R.id.fragment_container, fragment, getFragmentTAG())
                         .commit();
             } else {
                 fm.beginTransaction()
-                        .add(R.id.fragment_container, fragment)
-                        .add(R.id.fragment_container, new NavigationFragment())
+                        .add(R.id.fragment_container, fragment, getFragmentTAG())
+                        .add(R.id.fragment_container, new NavigationFragment(), NavigationFragment.TAG_NAVIGATION)
                         .commit();
             }
         }

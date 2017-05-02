@@ -79,7 +79,7 @@
             tools:text="@string/year_film" />
 
         <ImageButton
-            android:id="@+id/remind"
+            android:id="@+id/minRemind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/remind_item_color_state"
@@ -94,9 +94,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_test_24dp"
             tools:src="@drawable/ic_favorite_border_black_24px"
-            app:layout_constraintLeft_toRightOf="@+id/remind"
+            app:layout_constraintLeft_toRightOf="@+id/minRemind"
             app:layout_constraintRight_toLeftOf="@+id/add_list"
-            app:layout_constraintTop_toTopOf="@+id/remind" />
+            app:layout_constraintTop_toTopOf="@+id/minRemind" />
 
         <ImageButton
             android:id="@+id/add_list"

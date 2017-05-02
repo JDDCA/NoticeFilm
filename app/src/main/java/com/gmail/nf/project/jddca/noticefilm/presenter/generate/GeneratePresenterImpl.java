@@ -3,6 +3,7 @@ package com.gmail.nf.project.jddca.noticefilm.presenter.generate;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseService;
@@ -18,6 +19,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.navigation.NavigationFragment;
 
 import java.util.ArrayList;
 import java.util.List;

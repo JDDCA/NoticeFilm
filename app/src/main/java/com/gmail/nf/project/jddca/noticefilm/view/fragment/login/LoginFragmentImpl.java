@@ -30,7 +30,9 @@ import butterknife.Unbinder;
 
 public class LoginFragmentImpl extends ContextFragmentImpl implements LoginFragment {
 
+    public static final String LOGIN_TAG = "login_tag";
     private LoginPresenter presenter;
+
 
     @BindView(R.id.signInGoogle)
     SignInButton signInButton;
@@ -42,7 +44,6 @@ public class LoginFragmentImpl extends ContextFragmentImpl implements LoginFragm
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //// TODO: 24.04.2017 поврот экрана???
         presenter = new LoginPresenterImpl(this);
     }
 

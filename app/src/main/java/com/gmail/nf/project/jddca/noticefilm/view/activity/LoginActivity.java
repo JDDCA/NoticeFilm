@@ -10,10 +10,16 @@ import com.gmail.nf.project.jddca.noticefilm.view.fragment.login.LoginFragmentIm
 /**Activity для авторизации пользователя.*/
 public class LoginActivity extends SingleFragmentActivity{
 
+
     /**Метод устанавливает фрагмент для LoginActivity {@link LoginFragmentImpl}*/
     @Override
     protected Fragment createFragment() {
         return new LoginFragmentImpl();
+    }
+
+    @Override
+    protected String getFragmentTAG() {
+        return LoginFragmentImpl.LOGIN_TAG;
     }
 
     /**@see SingleFragmentActivity#createButtonNavigationFragment()*/
