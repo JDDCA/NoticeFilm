@@ -14,23 +14,11 @@ import static com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseState.Error
 
 public class DatabaseServiceImpl implements DatabaseService {
 
-    private static final String FAVORITES_MOVIES = "favorites_movies";
     private static final String LIST_MOVIES = "list_movies";
-
-
-    @Override
-    public void saveToFavoritesMovie(Film film) {
-        getFavoritesNodeRef(film.getId()).setValue(film);
-    }
 
     @Override
     public void saveToListMovie(Film film) {
         getListNodeRef(film.getId()).setValue(film);
-    }
-
-    @Override
-    public void removeFavoritesMovie(Film film) {
-        getFavoritesNodeRef(film.getId()).removeValue();
     }
 
     @Override
@@ -39,26 +27,13 @@ public class DatabaseServiceImpl implements DatabaseService {
     }
 
     @Override
-    public void checkInFavoritesMovie(Film film, ResultFromDatabase resultFromDatabase, ErrorFromDatabase errorFromDatabase) {
-        getFavoritesNodeRef(film.getId()).addListenerForSingleValueEvent(getSingleReadMovie(resultFromDatabase,errorFromDatabase));
-    }
-
-    @Override
     public void checkInListMovie(Film film, ResultFromDatabase resultFromDatabase, ErrorFromDatabase errorFromDatabase) {
         getListNodeRef(film.getId()).addListenerForSingleValueEvent(getSingleReadMovie(resultFromDatabase,errorFromDatabase));
     }
 
     @Override
-    public DatabaseReference getRefFav() {
-        return getDatabaseReference().child(FAVORITES_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid());
-    }
-
-    private DatabaseReference getFavoritesNodeRef(Integer id) {
-        if (id != null) {
-            String string_id = Integer.toString(id);
-            return getDatabaseReference().child(FAVORITES_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid()).child(string_id);
-        }
-        return getDatabaseReference().child(FAVORITES_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid());
+    public DatabaseReference getRefList() {
+        return getDatabaseReference().child(LIST_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid());
     }
 
     private DatabaseReference getListNodeRef(Integer id) {

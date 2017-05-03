@@ -61,12 +61,9 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     TextView title;
     @BindView(R.id.movie_year_realese)
     TextView year;
-    @BindView(R.id.add_fav)
-    ImageButton addFav;
     @BindView(R.id.add_list)
     ImageButton addList;
 
-    private boolean isTouchAddFav = true;
     private boolean isTouchAddList = true;
 
     public GenerateFragmentImpl() {
@@ -80,19 +77,7 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
         unbinder = ButterKnife.bind(this, view);
         progressBar.setIndeterminateDrawable(new CubeGrid());
         generateBtn.setOnClickListener(v -> presenter.downloadFilm(materialSpinner.getSelectedIndex()));
-        setButtonImage(addFav,isTouchAddFav,R.drawable.ic_favorite_border_black_24px,R.drawable.ic_favorite_black_24px);
-        addFav.setOnClickListener(v -> {
-            if (isTouchAddFav) {
-                addFav.setImageResource(R.drawable.ic_favorite_black_24px);
-                presenter.movieToFav(isTouchAddFav);
-            } else {
-                addFav.setImageResource(R.drawable.ic_favorite_border_black_24px);
-                presenter.movieToFav(isTouchAddFav);
-            }
-            isTouchAddFav = !isTouchAddFav;
-        });
         setButtonImage(addList,isTouchAddList,R.drawable.ic_playlist_add_black_24px,R.drawable.ic_playlist_add_check_black_24px);
-//        addList.setImageResource(R.drawable.ic_playlist_add_black_24px);
         addList.setOnClickListener(v -> {
             if (isTouchAddList) {
                 addList.setImageResource(R.drawable.ic_playlist_add_check_black_24px);
@@ -150,14 +135,10 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     }
 
     @Override
-    public void showFilm(Film film, boolean bFav, boolean bList) {
-        Log.i(TAG, "showFilm: " + "bFav: " + bFav + " bList " + bList + " film: " + film.toString());
-        isTouchAddFav = !bFav;
+    public void showFilm(Film film, boolean bList) {
         isTouchAddList = !bList;
-        if (addFav!=null)
-        setButtonImage(addList,bFav,R.drawable.ic_playlist_add_black_24px,R.drawable.ic_playlist_add_check_black_24px);
-        if (addFav!=null)
-        setButtonImage(addFav,bList,R.drawable.ic_favorite_border_black_24px,R.drawable.ic_favorite_black_24px);
+        if (addList!=null)
+        setButtonImage(addList,bList,R.drawable.ic_playlist_add_black_24px,R.drawable.ic_playlist_add_check_black_24px);
         if (title!=null)
         title.setText(film.getTitle());
         if (film.getReleaseDate() != null)
@@ -174,7 +155,6 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                         if (presenter!=null)
                         presenter.onStop();
                     }
-
                     @Override
                     public void onError() {
                         if (poster!=null)
@@ -188,7 +168,6 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                                         if (presenter!=null)
                                             presenter.onStop();
                                     }
-
                                     @Override
                                     public void onError() {
                                         showError(new IllegalAccessException("I can't loading default poster! Check me, please!"));

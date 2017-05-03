@@ -70,20 +70,6 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
     }
 
     @Override
-    public void movieToFav(boolean b) {
-        if (!FirebaseAuthService.isAnonymousUser()) {
-            if (film != null) {
-                if (b)
-                    databaseService.saveToFavoritesMovie(film);
-                else
-                    databaseService.removeFavoritesMovie(film);
-            } else
-                generateFragment.showError(new NullPointerException("Film is null. I can't save null in databaseService"));
-        } else
-            generateFragment.showError(new NotAuthorizedException());
-    }
-
-    @Override
     public void movieToList(boolean b) {
         if (!FirebaseAuthService.isAnonymousUser()) {
             if (film != null) {
@@ -99,11 +85,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
 
     private void checkInDatabase(Film film){
         // TODO: 02.05.2017 Интернет соеденение
-        databaseService.checkInFavoritesMovie(film,bFav -> databaseService.checkInListMovie(film,
-                bList -> generateFragment.showFilm(film,bFav,bList)
-                , generateFragment::showError)
-        ,generateFragment::showError);
-
+        databaseService.checkInListMovie(film,b -> generateFragment.showFilm(film,b),generateFragment::showError);
     }
 
     private void downloadGenreFilm(int selectedIndex) {

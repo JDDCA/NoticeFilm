@@ -20,6 +20,6 @@ public class ListPresenterImpl extends BasePresenterImpl implements ListPresente
 
     @Override
     public DatabaseReference getRefFav() {
-        return databaseService.getRefFav();
+        return databaseService.getRefList();
     }
 }

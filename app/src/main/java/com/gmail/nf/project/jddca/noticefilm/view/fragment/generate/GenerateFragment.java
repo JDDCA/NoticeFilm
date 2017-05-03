@@ -13,9 +13,7 @@ public interface GenerateFragment extends ContextFragment{
     View getProgressBarView ();
     View getDefaultView ();
     void showError (Throwable throwable);
-//    void showFilm (Film film);
     void toLog (String s);
     void updateGenres(List<String> stringList);
-
-    void showFilm(Film film, boolean bFav, boolean bList);
+    void showFilm(Film film, boolean bList);
 }
