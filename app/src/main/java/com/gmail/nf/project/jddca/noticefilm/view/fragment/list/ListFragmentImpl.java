@@ -42,16 +42,13 @@ public class ListFragmentImpl extends ContextFragmentImpl implements ListFragmen
         unbinder = ButterKnife.bind(this, view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        FirebaseRecyclerAdapter<Film, ListHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Film, ListHolder>(Film.class, R.layout.item_film, ListHolder.class, presenter.getRefFav()) {
+        recyclerView.setAdapter(
+                new FirebaseRecyclerAdapter<Film, ListHolder>(Film.class, R.layout.item_film, ListHolder.class, presenter.getRefFav()) {
             @Override
             protected void populateViewHolder(ListHolder viewHolder, Film model, int position) {
-                viewHolder.setTitle(model.getTitle());
-                if (model.getReleaseDate()!=null)
-                viewHolder.setYear(model.getReleaseDate());
-                viewHolder.setPoster(model.getPosterPath());
+                viewHolder.bindFilm(model);
             }
-        };
-        recyclerView.setAdapter(firebaseRecyclerAdapter);
+        });
         return view;
     }
 

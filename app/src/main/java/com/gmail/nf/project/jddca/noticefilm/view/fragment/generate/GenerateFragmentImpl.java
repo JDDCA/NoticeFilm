@@ -144,7 +144,7 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                     .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
     }
 
-    private void setButtonImage (ImageButton imageButton,boolean b, int first_state, int second_state){
+    public void setButtonImage (ImageButton imageButton,boolean b, int first_state, int second_state){
         imageButton.setImageResource(first_state);
         if (b)
             imageButton.setImageResource(second_state);
