@@ -3,13 +3,14 @@ package com.gmail.nf.project.jddca.noticefilm.model.db;
 
 import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseState.ResultFromDatabase;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseState.*;
-import static com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService.getDatabaseReference;
+import static com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseState.ErrorFromDatabase;
 
 public class DatabaseServiceImpl implements DatabaseService {
 
@@ -49,23 +50,23 @@ public class DatabaseServiceImpl implements DatabaseService {
 
     @Override
     public DatabaseReference getRefFav() {
-        return getDatabaseReference().child(FAVORITES_MOVIES);
+        return getDatabaseReference().child(FAVORITES_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid());
     }
 
     private DatabaseReference getFavoritesNodeRef(Integer id) {
         if (id != null) {
             String string_id = Integer.toString(id);
-            return getDatabaseReference().child(FAVORITES_MOVIES).child(string_id);
+            return getDatabaseReference().child(FAVORITES_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid()).child(string_id);
         }
-        return getDatabaseReference().child(FAVORITES_MOVIES);
+        return getDatabaseReference().child(FAVORITES_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid());
     }
 
     private DatabaseReference getListNodeRef(Integer id) {
         if (id != null) {
             String string_id = Integer.toString(id);
-            return getDatabaseReference().child(LIST_MOVIES).child(string_id);
+            return getDatabaseReference().child(LIST_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid()).child(string_id);
         }
-        return getDatabaseReference().child(LIST_MOVIES);
+        return getDatabaseReference().child(LIST_MOVIES).child(FirebaseAuthService.getCurrentUser().getUid());
     }
 
     private ValueEventListener getSingleReadMovie(ResultFromDatabase resultFromDatabase, ErrorFromDatabase errorFromDatabase) {
@@ -84,4 +85,7 @@ public class DatabaseServiceImpl implements DatabaseService {
         };
     }
 
+    private static DatabaseReference getDatabaseReference (){
+        return FirebaseDatabase.getInstance().getReference();
+    }
 }

@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 
@@ -71,7 +70,7 @@ public class DialogFactory extends DialogFragment {
                         .setTitle(title)
                         .setMessage(message)
                         .setPositiveButton(R.string.yes_do_it, (dialog, which) -> {
-                            FirebaseService.logoutAnonymously(getActivity());
+                            FirebaseAuthService.logoutAnonymously(getActivity());
                         })
                         .setNegativeButton(R.string.not_do_it, null)
                         .create();

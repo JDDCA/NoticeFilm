@@ -3,7 +3,6 @@ package com.gmail.nf.project.jddca.noticefilm.presenter.generate;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseService;
@@ -15,11 +14,10 @@ import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieService;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService.NotAuthorizedException;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragment;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.navigation.NavigationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +71,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
 
     @Override
     public void movieToFav(boolean b) {
-        if (!FirebaseService.isAnonymousUser()) {
+        if (!FirebaseAuthService.isAnonymousUser()) {
             if (film != null) {
                 if (b)
                     databaseService.saveToFavoritesMovie(film);
@@ -87,7 +85,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
 
     @Override
     public void movieToList(boolean b) {
-        if (!FirebaseService.isAnonymousUser()) {
+        if (!FirebaseAuthService.isAnonymousUser()) {
             if (film != null) {
                 if (b)
                     databaseService.saveToListMovie(film);

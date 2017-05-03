@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.firebase.ui.auth.ErrorCodes;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
@@ -68,7 +68,7 @@ public class LoginFragmentImpl extends ContextFragmentImpl implements LoginFragm
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FirebaseService.RC_SIGN_IN) {
+        if (requestCode == FirebaseAuthService.RC_SIGN_IN) {
             presenter.checkResultSigned(resultCode, data);
         }
     }

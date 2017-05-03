@@ -31,7 +31,7 @@ import java.util.Collections;
  *          Включает в себя методы работы с авторизацией, и бд.
  */
 
-public class FirebaseService {
+public class FirebaseAuthService {
 
     /**
      * статическая переменная для @code {requestCode при отправки startActivityForResult} при авторизации пользователя
@@ -42,13 +42,11 @@ public class FirebaseService {
         return FirebaseAuth.getInstance();
     }
 
-    private static FirebaseUser getCurrentUser (){
+    public static FirebaseUser getCurrentUser (){
         return getAuth().getCurrentUser();
     }
 
-    public static DatabaseReference getDatabaseReference (){
-        return FirebaseDatabase.getInstance().getReference();
-    }
+
 
     /**
      * Метода проверяет был ли вход пользователя ранее
@@ -79,7 +77,7 @@ public class FirebaseService {
     public Intent getGoogleIntent() {
         return AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(true)
+                .setIsSmartLockEnabled(false)
                 .setProviders(Collections.singletonList(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()))
                 .build();
     }

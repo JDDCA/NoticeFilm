@@ -3,10 +3,8 @@ package com.gmail.nf.project.jddca.noticefilm.view.fragment.generate;
 
 import android.accounts.NetworkErrorException;
 import android.os.Bundle;
-import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,19 +21,15 @@ import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ExceptionService.NotAuthorizedException;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.generate.GeneratePresenterImpl;
-import com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.NotActiveException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -116,6 +110,7 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (presenter!=null)
         presenter.onCreate();
     }
 
@@ -134,14 +129,16 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
 
     @Override
     public void showError(Throwable throwable) {
-        presenter.onStop();
-        Log.e(TAG, "showError: ", throwable);
-        if (throwable instanceof NetworkErrorException)
-            DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
-                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
-        if (throwable instanceof NotAuthorizedException)
-            DialogFactory.newInstance(R.string.info, R.string.auth_dialog)
-                    .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+        if (presenter!=null) {
+            presenter.onStop();
+            Log.e(TAG, "showError: ", throwable);
+            if (throwable instanceof NetworkErrorException)
+                DialogFactory.newInstance(R.string.error, R.string.dialog_network_error)
+                        .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+            if (throwable instanceof NotAuthorizedException)
+                DialogFactory.newInstance(R.string.info, R.string.auth_dialog)
+                        .show(getFragmentManager(), DialogFactory.DIALOG_ERROR);
+        }
     }
 
     public void setButtonImage (ImageButton imageButton,boolean b, int first_state, int second_state){
@@ -174,6 +171,7 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                 .into(poster, new Callback() {
                     @Override
                     public void onSuccess() {
+                        if (presenter!=null)
                         presenter.onStop();
                     }
 
@@ -187,7 +185,8 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                                 .into(poster, new Callback() {
                                     @Override
                                     public void onSuccess() {
-                                        presenter.onStop();
+                                        if (presenter!=null)
+                                            presenter.onStop();
                                     }
 
                                     @Override

@@ -7,13 +7,13 @@ import android.support.annotation.NonNull;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
-import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService;
+import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenterImpl;
 import com.gmail.nf.project.jddca.noticefilm.view.activity.MainActivity;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.login.LoginFragment;
 
 
-import static com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseService.RC_SIGN_IN;
+import static com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService.RC_SIGN_IN;
 
 /** Класс реализация входа пользователя
  * @see com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenter */
@@ -21,21 +21,21 @@ public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresen
 
 
     private LoginFragment contract;
-    private FirebaseService firebaseService;
+    private FirebaseAuthService firebaseAuthService;
 
     private String token;
 
 
     public LoginPresenterImpl(@NonNull LoginFragment contract) {
         this.contract = contract;
-        firebaseService = new FirebaseService();
+        firebaseAuthService = new FirebaseAuthService();
     }
 
     @Override
     public void loginGoogle() {
-        if (!FirebaseService.checkSession()){
+        if (!FirebaseAuthService.checkSession()){
             // not signed in
-            contract.startActvtFor(firebaseService.getGoogleIntent(),RC_SIGN_IN);
+            contract.startActvtFor(firebaseAuthService.getGoogleIntent(),RC_SIGN_IN);
         }else {
             // already signed in
             startMainActivity();
@@ -44,9 +44,9 @@ public class LoginPresenterImpl extends BasePresenterImpl implements LoginPresen
 
     @Override
     public void loginAnonymously() {
-        if (!FirebaseService.checkSession()){
+        if (!FirebaseAuthService.checkSession()){
             // not signed in
-            firebaseService.getAuthResultTask().addOnCompleteListener(contract.getActvt(), task -> {
+            firebaseAuthService.getAuthResultTask().addOnCompleteListener(contract.getActvt(), task -> {
                 if (task.isSuccessful()){
                     startMainActivity();
                 }else {
