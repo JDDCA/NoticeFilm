@@ -101,6 +101,6 @@ public class NavigationFragment extends Fragment implements BottomNavigationView
                 if (listFrag!=null)
                     return true;
         }
-        return false;
+        return true;
     }
 }
