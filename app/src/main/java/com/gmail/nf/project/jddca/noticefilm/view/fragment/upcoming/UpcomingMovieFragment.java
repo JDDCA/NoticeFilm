@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.view.fragment;
+package com.gmail.nf.project.jddca.noticefilm.view.fragment.upcoming;
 
 
 import android.os.Bundle;
@@ -12,9 +12,8 @@ import android.view.ViewGroup;
 
 import com.gmail.nf.project.jddca.noticefilm.R;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
-import com.gmail.nf.project.jddca.noticefilm.presenter.UpcomingMoviePresenter;
-import com.gmail.nf.project.jddca.noticefilm.presenter.adapter.UpcomingAdapter;
-import com.gmail.nf.project.jddca.noticefilm.view.UpcomingView;
+import com.gmail.nf.project.jddca.noticefilm.presenter.upcoming.UpcomingMoviePresenter;
+import com.gmail.nf.project.jddca.noticefilm.presenter.upcoming.adapter.UpcomingAdapter;
 
 import java.util.List;
 
@@ -24,18 +23,18 @@ import butterknife.Unbinder;
 public class UpcomingMovieFragment extends Fragment implements UpcomingView {
 
     private final String TAG = getClass().getSimpleName();
+    public static final String UPCOMING_TAG = "upcoming_tag";
 
     private UpcomingMoviePresenter presenter;
     private UpcomingAdapter mUpcomingAdapter;
     private Unbinder unbinder;
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new UpcomingMoviePresenter(this);
-
+        presenter.setFragment(this);
     }
 
     @Nullable
@@ -45,7 +44,7 @@ public class UpcomingMovieFragment extends Fragment implements UpcomingView {
         unbinder = ButterKnife.bind(this, view);
         presenter.getUpcoming();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.upcoming_rv);
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         return view;
     }
@@ -57,7 +56,7 @@ public class UpcomingMovieFragment extends Fragment implements UpcomingView {
     }
 
     @Override
-    public void showUpcomingMoviesList(List<Film> movies) {
+    public void showMovieList(List<Film> movies) {
         mUpcomingAdapter = new UpcomingAdapter(movies);
         mRecyclerView.setAdapter(mUpcomingAdapter);
     }

@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.presenter;
+package com.gmail.nf.project.jddca.noticefilm.presenter.upcoming;
 
 
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.UpcomingMovie;
@@ -6,9 +6,10 @@ import com.gmail.nf.project.jddca.noticefilm.model.rest.UpcomingMovieService;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.UpcomingMovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
+import com.gmail.nf.project.jddca.noticefilm.presenter.Presenter;
 import com.gmail.nf.project.jddca.noticefilm.view.IView;
-import com.gmail.nf.project.jddca.noticefilm.view.UpcomingView;
-import com.gmail.nf.project.jddca.noticefilm.view.fragment.UpcomingMovieFragment;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.upcoming.UpcomingView;
+import com.gmail.nf.project.jddca.noticefilm.view.fragment.upcoming.UpcomingMovieFragment;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -32,6 +33,6 @@ public class UpcomingMoviePresenter implements Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(UpcomingMovie::getResults)
-                .subscribe(view::showUpcomingMoviesList, view::showError);
+                .subscribe(view::showMovieList, view::showError);
     }
 }

@@ -1,4 +1,4 @@
-package com.gmail.nf.project.jddca.noticefilm.presenter.adapter;
+package com.gmail.nf.project.jddca.noticefilm.presenter.upcoming.adapter;
 
 
 import android.content.Context;
