@@ -93,6 +93,7 @@ dependencies {
 
     // UNIT - testing
     testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile "org.robolectric:shadows-multidex:3.0"
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }

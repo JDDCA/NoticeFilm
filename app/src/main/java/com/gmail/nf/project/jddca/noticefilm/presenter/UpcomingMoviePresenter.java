@@ -1,6 +1,7 @@
 package com.gmail.nf.project.jddca.noticefilm.presenter;
 
 
+import com.gmail.nf.project.jddca.noticefilm.model.pojos.UpcomingMovie;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.UpcomingMovieService;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.UpcomingMovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.ApiService;
@@ -27,10 +28,10 @@ public class UpcomingMoviePresenter implements Presenter {
     }
 
     public void getUpcoming() {
-        service.getUpcomingMovie(ApiService.getApiKey(fragment.getContext()), ApiService.getLocales(fragment.getContext()), 1)
+        service.getUpcomingMovie(ApiService.getApiKey(fragment.getContext()), ApiService.getLocales(fragment.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(movies -> view.showUpcomingMoviesList(movies),
-                        throwable -> view.showError(throwable));
+                .map(UpcomingMovie::getResults)
+                .subscribe(view::showUpcomingMoviesList, view::showError);
     }
 }
