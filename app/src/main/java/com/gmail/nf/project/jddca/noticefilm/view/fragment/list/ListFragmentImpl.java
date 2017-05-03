@@ -60,7 +60,7 @@ public class ListFragmentImpl extends ContextFragmentImpl implements ListFragmen
                 }
             }
         );
-        emptyButton.setOnClickListener(v -> presenter.transactionToGenrate());
+        emptyButton.setOnClickListener(v -> presenter.transactionToGenerate());
 
 
         return view;

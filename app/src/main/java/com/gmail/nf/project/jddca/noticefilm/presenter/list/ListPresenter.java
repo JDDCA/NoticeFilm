@@ -9,5 +9,5 @@ import com.google.firebase.database.Query;
 public interface ListPresenter extends BasePresenter {
     DatabaseReference getRefList();
     void removeListsMovie(Film film);
-    void transactionToGenrate();
+    void transactionToGenerate();
 }

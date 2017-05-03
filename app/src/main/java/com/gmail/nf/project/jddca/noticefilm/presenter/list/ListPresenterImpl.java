@@ -79,7 +79,7 @@ public class ListPresenterImpl extends BasePresenterImpl implements ListPresente
     }
 
     @Override
-    public void transactionToGenrate() {
+    public void transactionToGenerate() {
         if (!FirebaseAuthService.isAnonymousUser()){
             FragmentManager fragmentManager = fragment.getFrgmnt().getFragmentManager();
             Fragment fragmentByTag = fragmentManager.findFragmentByTag(ListFragmentImpl.LIST_TAG);
