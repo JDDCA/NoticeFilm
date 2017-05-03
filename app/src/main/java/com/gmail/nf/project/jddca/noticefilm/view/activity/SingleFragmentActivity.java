@@ -47,8 +47,8 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
                         .commit();
             } else {
                 fm.beginTransaction()
-                        .add(R.id.fragment_container, fragment, getFragmentTAG())
                         .add(R.id.fragment_container, new NavigationFragment(), NavigationFragment.TAG_NAVIGATION)
+                        .add(R.id.fragment_container, fragment, getFragmentTAG())
                         .commit();
             }
         }

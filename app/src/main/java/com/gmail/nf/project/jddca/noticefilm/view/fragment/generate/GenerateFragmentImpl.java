@@ -182,8 +182,8 @@ public class GenerateFragmentImpl extends ContextFragmentImpl implements Generat
                         if (poster!=null)
                         Picasso.with(getContext())
                                 .load(R.drawable.lock_stock)
-                                .centerCrop()
-                                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
+//                                .centerCrop()
+//                                .resize(poster.getMeasuredWidth(), poster.getMeasuredHeight())
                                 .into(poster, new Callback() {
                                     @Override
                                     public void onSuccess() {
