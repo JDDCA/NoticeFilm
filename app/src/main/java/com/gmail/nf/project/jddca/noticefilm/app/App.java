@@ -1,6 +1,8 @@
 package com.gmail.nf.project.jddca.noticefilm.app;
 
-import com.gmail.nf.project.jddca.noticefilm.model.DataManager;
+import android.support.multidex.MultiDexApplication;
+
+import com.google.firebase.database.FirebaseDatabase;
 
 import lombok.experimental.PackagePrivate;
 
@@ -12,14 +14,13 @@ import lombok.experimental.PackagePrivate;
  */
 
 @PackagePrivate
-public class App extends android.app.Application{
+public class App extends MultiDexApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        DataManager.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
-
 }
 
 

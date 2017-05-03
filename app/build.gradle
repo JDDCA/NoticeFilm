@@ -8,6 +8,7 @@ android {
         applicationId "com.gmail.nf.project.jddca.noticefilm"
         minSdkVersion 16
         targetSdkVersion 25
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -35,12 +36,8 @@ dependencies {
     def firebaseLib = "10.2.0"
     def androidSupportLibVersion = '25.3.1'
     def lombokLib = '1.12.6'
-    def rxJavaLib = '1.2.9'
-    def rxAndroid = '1.2.1'
-
-    //    compile 'com.squareup.retrofit2:retrofit:2.2.0'
-//    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
-//    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    def multidex = '1.0.1'
+    def supportDesign = '25.3.1'
 
     // Dagger
 //    compile 'com.google.dagger:dagger:' + daggerLibVersion
@@ -55,21 +52,47 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-auth:' + firebaseUILibVersion
     compile 'com.firebaseui:firebase-ui-database:' + firebaseUILibVersion
 
+
     //Firebase
     compile 'com.google.firebase:firebase-core:' + firebaseLib
 
     // Android support
     compile 'com.android.support:appcompat-v7:' + androidSupportLibVersion
     compile 'com.android.support:support-v4:' + androidSupportLibVersion
+    compile 'com.google.android.gms:play-services-auth:' + firebaseLib
+
 
     //Lombok
     provided 'org.projectlombok:lombok:' + lombokLib
 
     //RxJava
-    compile 'io.reactivex:rxjava:' + rxJavaLib
-    compile 'io.reactivex:rxandroid:' + rxAndroid
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.0.8'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    //Retrofit
+    compile group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: '2.2.0'
+    compile group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.2.0'
+
+    //Gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+
+    //MSL
+    compile 'com.android.support:multidex:' + multidex
+
+    //UI
+        //Navigatin Tab Bar
+//    compile 'devlight.io:navigationtabbar:1.2.5'
+    compile 'com.android.support:design:' + supportDesign
+        //Spinner
+    compile 'com.jaredrummler:material-spinner:1.1.0'
+        //ProgressBar
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // UNIT - testing
+    testCompile "org.robolectric:robolectric:3.3.2"
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }
