@@ -21,6 +21,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.db.DatabaseServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.pojos.Film;
 import com.gmail.nf.project.jddca.noticefilm.model.rest.GenerateMovieServiceImpl;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.RetrofitService;
+import com.gmail.nf.project.jddca.noticefilm.presenter.list.ListPresenter;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.squareup.picasso.Callback;
@@ -39,6 +40,8 @@ public class ListHolder extends RecyclerView.ViewHolder {
     TextView title;
     @BindView(R.id.minYear)
     TextView year;
+    @BindView(R.id.minDelete)
+    ImageButton delete;
 
     private Context context;
 
@@ -48,7 +51,7 @@ public class ListHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void bindFilm (@NonNull Film film){
+    public void bindFilm (@NonNull Film film, ListPresenter presenter){
         title.setText(film.getTitle());
         if (film.getReleaseDate()!=null)
             year.setText(film.getReleaseDate().substring(0, 4));
@@ -68,6 +71,7 @@ public class ListHolder extends RecyclerView.ViewHolder {
                     }
                 });
         cardView.setOnClickListener(v -> Toast.makeText(context,film.getTitle(),Toast.LENGTH_SHORT).show());
+        delete.setOnClickListener(v -> presenter.removeListsMovie(film));
     }
 
 

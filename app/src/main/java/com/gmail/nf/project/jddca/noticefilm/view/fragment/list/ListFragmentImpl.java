@@ -46,7 +46,7 @@ public class ListFragmentImpl extends ContextFragmentImpl implements ListFragmen
                 new FirebaseRecyclerAdapter<Film, ListHolder>(Film.class, R.layout.item_film, ListHolder.class, presenter.getRefFav()) {
             @Override
             protected void populateViewHolder(ListHolder viewHolder, Film model, int position) {
-                viewHolder.bindFilm(model);
+                viewHolder.bindFilm(model, presenter);
             }
         });
         return view;
