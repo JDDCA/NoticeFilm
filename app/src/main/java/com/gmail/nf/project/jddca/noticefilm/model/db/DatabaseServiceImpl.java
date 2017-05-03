@@ -47,6 +47,11 @@ public class DatabaseServiceImpl implements DatabaseService {
         getListNodeRef(film.getId()).addListenerForSingleValueEvent(getSingleReadMovie(resultFromDatabase,errorFromDatabase));
     }
 
+    @Override
+    public DatabaseReference getRefFav() {
+        return getDatabaseReference().child(FAVORITES_MOVIES);
+    }
+
     private DatabaseReference getFavoritesNodeRef(Integer id) {
         if (id != null) {
             String string_id = Integer.toString(id);
