@@ -19,7 +19,9 @@
     <string name="wait">Please wait</string>
     <string name="info">Info</string>
     <string name="yes_do_it">OK, let\'s do it</string>
+    <string name="do_it">Let\'s do it</string>
     <string name="not_do_it">NO thanks</string>
     <string name="auth_dialog">You must be authorization into Google account, sorry</string>
     <string name="new_films">New Films</string>
+    <string name="info_empty_list">You have not added any movie in your list yet.</string>
 </resources>

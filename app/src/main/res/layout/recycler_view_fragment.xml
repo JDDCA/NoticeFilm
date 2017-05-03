@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="56dp">
 
+    <include
+        layout="@layout/info_list_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"

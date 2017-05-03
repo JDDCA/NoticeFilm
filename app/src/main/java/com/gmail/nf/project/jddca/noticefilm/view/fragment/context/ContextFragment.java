@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 /**Базовый интерфейс для работы с фрагментами*/
 public interface ContextFragment {
@@ -15,5 +16,4 @@ public interface ContextFragment {
     void startActvtFor (@NonNull Intent intent, int requestCode);
     void startActvt (@NonNull Intent intent);
     void finishActvt ();
-
 }
