@@ -66,13 +66,11 @@ public class NavigationFragment extends Fragment implements BottomNavigationView
         Fragment listFrag = fragmentManager.findFragmentByTag(ListFragmentImpl.LIST_TAG);
         switch (item.getItemId()) {
             case R.id.action_generate:
-                Log.i("TEMP", "action_generate: " + navFrag);
-                Log.i("TEMP", "action_generate: " + genFrag);
-                Log.i("TEMP", "action_generate: " + listFrag);
+                Log.i("TEMP", "action_generate: "+navFrag);
+                Log.i("TEMP", "action_generate: "+genFrag);
+                Log.i("TEMP", "action_generate: "+listFrag);
                 if (listFrag != null) {
-                    Log.i("TEMP", "listFrag != null: " + navFrag);
-                    Log.i("TEMP", "listFrag != null: " + genFrag);
-                    Log.i("TEMP", "listFrag != null: " + listFrag);
+                    Log.i("TEMP", "genFrag != null: ");
                     fragmentManager
                             .beginTransaction()
                             .remove(listFrag)
@@ -82,22 +80,15 @@ public class NavigationFragment extends Fragment implements BottomNavigationView
                             .commit();
                     return true;
                 }
-//                getFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.fragment_container, new GenerateFragmentImpl())
-//                        .replace(R.id.fragment_container, this)
-//                        .addToBackStack(null)
-//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                        .commit();
-//                return true;
+                if (genFrag != null){
+                    Log.i("TEMP", "genFrag != null: ");
+                    return true;
+                }
             case R.id.action_list:
-                Log.i("TEMP", "action_list: " + navFrag);
-                Log.i("TEMP", "action_list: " + genFrag);
-                Log.i("TEMP", "action_list: " + listFrag);
+                Log.i("TEMP", "action_list: "+navFrag);
+                Log.i("TEMP", "action_list: "+genFrag);
+                Log.i("TEMP", "action_list: "+listFrag);
                 if (genFrag != null) {
-                    Log.i("TEMP", "genFrag != null: " + navFrag);
-                    Log.i("TEMP", "genFrag != null: " + genFrag);
-                    Log.i("TEMP", "genFrag != null: " + listFrag);
                     fragmentManager
                             .beginTransaction()
                             .remove(genFrag)
@@ -107,17 +98,9 @@ public class NavigationFragment extends Fragment implements BottomNavigationView
                             .commit();
                     return true;
                 }
-
-
-//                getFragmentManager()
-//                        .beginTransaction()
-//                        .replace(R.id.fragment_container, new LoginFragmentImpl())
-//                        .replace(R.id.fragment_container, this)
-//                        .addToBackStack(null)
-//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                        .commit();
-//                return true;
+                if (listFrag!=null)
+                    return true;
         }
-        return true;
+        return false;
     }
 }

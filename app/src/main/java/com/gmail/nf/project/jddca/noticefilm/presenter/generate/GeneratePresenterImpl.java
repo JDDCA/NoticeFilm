@@ -217,6 +217,7 @@ public class GeneratePresenterImpl extends BasePresenterImpl implements Generate
 
     @Override
     public void onStop() {
+        databaseService = null;
         hideProgressBar();
     }
 
