@@ -15,6 +15,7 @@ import com.gmail.nf.project.jddca.noticefilm.model.utils.DialogFactory;
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService;
 import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenter;
 import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenterImpl;
+import com.gmail.nf.project.jddca.noticefilm.presenter.login.LoginPresenterImplN;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.context.ContextFragmentImpl;
 import com.google.android.gms.common.SignInButton;
 
@@ -44,7 +45,8 @@ public class LoginFragmentImpl extends ContextFragmentImpl implements LoginFragm
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new LoginPresenterImpl(this);
+//        presenter = new LoginPresenterImpl(this);
+        presenter = new LoginPresenterImplN(this);
     }
 
     @Nullable

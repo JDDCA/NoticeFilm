@@ -13,7 +13,7 @@ public interface LoginPresenter extends BasePresenter {
     void loginGoogle ();
     /**Метод аннонимного входа*/
     void loginAnonymously ();
-    /*** Метод проверяет результат входа пользователя и сохраняет токен при успешном входе.*/
+    /**Метод проверяет результат входа*/
     void checkResultSigned (int resultCode, @NonNull Intent data);
 
 }
