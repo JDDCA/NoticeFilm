@@ -54,12 +54,15 @@ dependencies {
 
 
     //Firebase
-    compile 'com.google.firebase:firebase-core:' + firebaseLib
+//    compile 'com.google.firebase:firebase-core:' + firebaseLib
+
+    //PlayServices
+//    compile 'com.google.android.gms:play-services-auth:' + firebaseLib
+
 
     // Android support
     compile 'com.android.support:appcompat-v7:' + androidSupportLibVersion
     compile 'com.android.support:support-v4:' + androidSupportLibVersion
-    compile 'com.google.android.gms:play-services-auth:' + firebaseLib
 
 
     //Lombok
@@ -78,6 +81,9 @@ dependencies {
 
     //MSL
     compile 'com.android.support:multidex:' + multidex
+
+    //Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     //UI
         //Navigatin Tab Bar
