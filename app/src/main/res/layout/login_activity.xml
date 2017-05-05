@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/cinema_wallpaper"
+    android:orientation="vertical"
+    tools:context="com.gmail.nf.project.jddca.noticefilm.view.activity.LoginActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="100dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="start"
+        android:text="@string/login_title"
+        android:textColor="@color/icons"
+        android:textSize="52sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="80dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/signInGoogleActivity"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/anonymousSignInActivity"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:paddingTop="25dp"
+            android:text="@string/login_anonymous"
+            android:textColor="@color/icons"
+            android:textSize="15sp"
+            android:textStyle="italic|normal" />
+    </LinearLayout>
+
+</LinearLayout>

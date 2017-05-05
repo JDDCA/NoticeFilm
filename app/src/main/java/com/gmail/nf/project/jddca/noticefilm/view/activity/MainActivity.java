@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 
 import com.gmail.nf.project.jddca.noticefilm.model.utils.FirebaseAuthService;
 import com.gmail.nf.project.jddca.noticefilm.view.fragment.generate.GenerateFragmentImpl;
+import com.google.firebase.auth.FirebaseAuth;
 
 import lombok.experimental.PackagePrivate;
 
@@ -47,7 +48,7 @@ public class MainActivity extends SingleFragmentActivity{
 
     /**Метод для проверки авторизации пользователя.*/
     private void checkSession() {
-        if (!FirebaseAuthService.checkSession()) {
+        if (FirebaseAuth.getInstance().getCurrentUser()==null) {
             startActivity(LoginActivity.createIntent(this));
             finish();
         }

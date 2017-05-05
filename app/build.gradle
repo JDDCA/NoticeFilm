@@ -54,6 +54,7 @@ dependencies {
 
 
     //Firebase
+    compile "com.google.firebase:firebase-auth:" + firebaseLib
 //    compile 'com.google.firebase:firebase-core:' + firebaseLib
 
     //PlayServices

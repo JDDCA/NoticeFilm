@@ -9,6 +9,7 @@ import com.gmail.nf.project.jddca.noticefilm.presenter.base.BasePresenter;
 /**Интерефес для работы с авторизацией пользователя*/
 public interface LoginPresenter extends BasePresenter {
 
+    int RC_SIGN_IN = 123;
     /** Метод для входа через Google+ */
     void loginGoogle ();
     /**Метод аннонимного входа*/
