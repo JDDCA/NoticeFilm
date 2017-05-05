@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">NoticeFilm</string>
+    <string name="title_film">Title Film</string>
+    <string name="year_film">year</string>
+    <string name="error">Error</string>
+    <string name="dialog_network_error">Check your Internet</string>
+    <string name="dialog_cancel_error">You canceled auth</string>
+    <string name="dialog_unknown_error">I don not know what happens. Try again!</string>
+    <string name="ok">OK</string>
+    <string name="advice">Advice</string>
+    <string name="profile">Profile</string>
+    <string name="generate">Generate</string>
+    <string name="favorites">Favorites</string>
+    <string name="list">List</string>
+    <string name="something">Something</string>
+    <string name="login_title">The\n Movie\n Adviser</string>
+    <string name="login_anonymous">Anonymous Sign In >></string>
+    <string name="random">All genres</string>
+    <string name="wait">Please wait</string>
+    <string name="info">Info</string>
+    <string name="yes_do_it">OK, let\'s do it</string>
+    <string name="do_it">Let\'s do it</string>
+    <string name="not_do_it">NO thanks</string>
+    <string name="auth_dialog">You must be authorization into Google account, sorry</string>
+    <string name="new_films">New Films</string>
+    <string name="info_empty_list">You have not added any movie in your list yet.</string>
 </resources>

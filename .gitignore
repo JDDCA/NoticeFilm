@@ -47,7 +47,6 @@ captures/
 *~
 *.swp
 .idea
-
 # Android Patch
 gen-external-apklibs
 
